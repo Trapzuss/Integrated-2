@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_integrated/layouts/default_layout.dart';
+import 'package:pet_integrated/screens/chat_screen.dart';
 import 'package:pet_integrated/screens/login_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
@@ -13,8 +16,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             textTheme: GoogleFonts.ubuntuTextTheme(Theme.of(context).textTheme),
             scaffoldBackgroundColor: Color.fromARGB(255, 235, 235, 235),
@@ -22,6 +28,9 @@ class MyApp extends StatelessWidget {
                 .copyWith(primary: AppTheme.colors.primary),
             appBarTheme:
                 AppBarTheme(foregroundColor: AppTheme.colors.primaryFontColor)),
-        home: LoginScreen());
+        home: Center(
+          // child: DefaultLayout(),
+          child: ChatScreen(),
+        ));
   }
 }
