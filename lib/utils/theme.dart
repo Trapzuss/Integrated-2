@@ -16,6 +16,7 @@ class AppColors {
   final primaryFontColor = const Color(0xFF202020);
   final secondaryFontColor = const Color(0xFFFFFCF1);
   final darkFontColor = const Color(0xFF263238);
+  final notWhite = const Color.fromARGB(255, 235, 235, 235);
 }
 
 class AppSrc {}
