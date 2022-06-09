@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pet_integrated/screens/chat_screen.dart';
+import 'package:pet_integrated/screens/chat/chat_list_screen.dart';
+import 'package:pet_integrated/screens/chat/chat_screen.dart';
 import 'package:pet_integrated/screens/home_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -73,7 +74,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
         body: PageView(
           physics: NeverScrollableScrollPhysics(),
-          children: [HomeScreen(), ChatScreen(), ProfileScreen()],
+          children: [HomeScreen(), ChatListScreen(), ProfileScreen()],
           controller: pageController,
         ),
         bottomNavigationBar: Container(

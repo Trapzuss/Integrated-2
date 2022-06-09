@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_integrated/layouts/default_layout.dart';
 
-import 'package:pet_integrated/screens/chat_screen.dart';
+import 'package:pet_integrated/screens/chat/chat_screen.dart';
 import 'package:pet_integrated/screens/auth/login_screen.dart';
 import 'package:pet_integrated/screens/splash_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';

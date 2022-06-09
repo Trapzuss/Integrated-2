@@ -9,8 +9,8 @@ import 'package:pet_integrated/widgets/chat/detail_chat_messages.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:uuid/uuid.dart';
 import 'package:username_gen/username_gen.dart';
-import '../models/message.dart';
-import '../models/user.dart';
+import '../../models/message.dart';
+import '../../models/user.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
