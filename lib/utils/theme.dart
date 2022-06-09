@@ -42,6 +42,15 @@ class AppStyle {
       return 0; // Defer to the widget's default.
     },
   );
+
+  final primaryFontStyle = TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.bold,
+      color: AppTheme.colors.infoFontColor);
+  final secondaryFontStyle = TextStyle(
+      overflow: TextOverflow.fade,
+      color: AppTheme.colors.subInfoFontColor,
+      fontSize: 12);
 }
 
 class AppSrc {}
