@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    # add this line to your dependencies
+
   dio: ^4.0.6
   cupertino_icons: ^1.0.2
   google_fonts: ^2.3.1

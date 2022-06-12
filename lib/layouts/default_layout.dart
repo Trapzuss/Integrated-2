@@ -80,7 +80,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
         bottomNavigationBar: Container(
             decoration: BoxDecoration(
-              color: Colors.transparent,
+              color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),
                 topRight: Radius.circular(30.0),
@@ -95,6 +95,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
                 topRight: Radius.circular(30.0),
               ),
               child: BottomNavigationBar(
+                elevation: 0,
                 items: _BtmNvgtItems,
                 currentIndex: _state,
                 onTap: _onNavigationTapped,

@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
         builder: BotToastInit(),
         navigatorObservers: [BotToastNavigatorObserver()],
         theme: ThemeData(
+            canvasColor: Colors.transparent,
             primaryColor: AppTheme.colors.primary,
             textTheme: GoogleFonts.ubuntuTextTheme(Theme.of(context).textTheme),
             scaffoldBackgroundColor: Color.fromARGB(255, 235, 235, 235),
