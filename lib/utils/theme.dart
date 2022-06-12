@@ -48,6 +48,10 @@ class AppStyle {
       fontSize: 16,
       fontWeight: FontWeight.bold,
       color: AppTheme.colors.darkFontColor);
+  final bodyFontStyle = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: AppTheme.colors.darkFontColor);
   final primaryFontStyle = TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.bold,
