@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_integrated/screens/chat/chat_list_screen.dart';
 import 'package:pet_integrated/screens/chat/chat_screen.dart';
 import 'package:pet_integrated/screens/home_screen.dart';
+import 'package:pet_integrated/screens/profile/profile_edit_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
@@ -175,13 +176,34 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       );
     } else if (_state == 2) {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(_appBarTitle, style: TextStyle(color: AppTheme.colors.primary)),
-          Container(
-            margin: EdgeInsets.only(left: 4),
-            child: Icon(
-              Icons.person_pin,
-              color: AppTheme.colors.primary,
+          Row(
+            children: [
+              Text(_appBarTitle,
+                  style: TextStyle(color: AppTheme.colors.primary)),
+              Container(
+                margin: EdgeInsets.only(left: 4),
+                child: Icon(
+                  Icons.person_pin,
+                  color: AppTheme.colors.primary,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 30,
+            width: 30,
+            child: IconButton(
+              padding: EdgeInsets.all(0),
+              splashRadius: 15,
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileEditScreen()));
+              },
             ),
           ),
         ],
