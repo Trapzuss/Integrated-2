@@ -21,6 +21,7 @@ class AppColors {
   final notWhite = const Color.fromARGB(255, 235, 235, 235);
   final infoFontColor = Color.fromARGB(255, 113, 113, 113);
   final subInfoFontColor = Color.fromARGB(255, 152, 152, 152);
+  final decorateColor = Color(0xFF16868D);
   // final linearColors = LinearGradient(
   //   transform: GradientRotation(270),
   //   colors: [
@@ -43,6 +44,10 @@ class AppStyle {
     },
   );
 
+  final titleFontStyle = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: AppTheme.colors.darkFontColor);
   final primaryFontStyle = TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.bold,
@@ -51,6 +56,26 @@ class AppStyle {
       overflow: TextOverflow.fade,
       color: AppTheme.colors.subInfoFontColor,
       fontSize: 12);
+
+  textFieldStyle({hinttext: String}) {
+    return InputDecoration(
+        hintStyle: TextStyle(fontSize: 12, height: 2),
+        hintText: '${hinttext}',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+          borderSide: BorderSide(
+            width: 0,
+            style: BorderStyle.none,
+          ),
+        ),
+        contentPadding: EdgeInsets.only(left: 10, right: 10),
+        // suffixIcon: Icon(Icons.search),
+        filled: true,
+        fillColor: Colors.white);
+  }
 }
 
-class AppSrc {}
+class AppSrc {
+  final String profileImage =
+      'https://i.pinimg.com/564x/a6/a5/9c/a6a59cf39b63d214cb7feab97b8c9a59.jpg';
+}
