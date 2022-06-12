@@ -13,10 +13,11 @@ class GeneratePostScreen extends StatefulWidget {
 }
 
 class _GeneratePostScreenState extends State<GeneratePostScreen> {
-  var formKey = GlobalKey<FormState>();
-  var controllerUsername = TextEditingController();
-  var controllerPassword = TextEditingController();
-  var controllerDisplayName = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  var _formKey = GlobalKey<FormState>();
+  var _controllerUsername = TextEditingController();
+  var _controllerPassword = TextEditingController();
+  var _controllerDisplayName = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: BuildPostForm(),
+          child: BuildPostForm(scaffoldKey: _scaffoldKey),
         ),
       ),
     );

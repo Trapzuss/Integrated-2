@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:pet_integrated/widgets/posts/generate/build_address_form.dart';
@@ -7,8 +8,8 @@ import 'package:pet_integrated/widgets/posts/generate/build_general_form.dart';
 import 'package:pet_integrated/widgets/posts/generate/build_post_image.dart';
 
 class BuildPostForm extends StatefulWidget {
-  const BuildPostForm({Key? key}) : super(key: key);
-
+  const BuildPostForm({Key? key, required this.scaffoldKey}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey;
   @override
   State<BuildPostForm> createState() => _BuildPostFormState();
 }
@@ -22,7 +23,7 @@ class _BuildPostFormState extends State<BuildPostForm> {
           child: Column(
         children: [
           BuildPostImage(),
-          BuildGeneralForm(),
+          BuildGeneralForm(scaffoldKey: widget.scaffoldKey),
           BuildAddressForm(),
           BuildCostForm()
         ],
