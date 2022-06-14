@@ -50,6 +50,7 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   cached_network_image: ^3.2.1
   flutter_picker: ^2.0.3
+  file_picker: ^4.5.1
 
 dev_dependencies:
   flutter_test:
