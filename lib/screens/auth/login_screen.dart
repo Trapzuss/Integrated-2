@@ -4,13 +4,13 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_integrated/layouts/default_layout.dart';
-import 'package:pet_integrated/mixins/authentication.dart';
+import 'package:pet_integrated/services/authentication.dart';
 import 'package:pet_integrated/screens/auth/register_screen.dart';
 import 'package:pet_integrated/screens/posts/post_screen.dart';
 import 'package:pet_integrated/screens/profile/profile_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:pet_integrated/widgets/authentication/login_form.dart';
-import 'package:pet_integrated/widgets/authentication/registration_form.dart';
+import 'package:pet_integrated/widgets/authentication/personal_infomation_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -23,12 +23,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _controllerUsername = TextEditingController();
+  final _controllerEmail = TextEditingController();
   final _controllerPassword = TextEditingController();
 
   @override
   void dispose() {
-    _controllerUsername.dispose();
+    _controllerEmail.dispose();
     _controllerPassword.dispose();
 
     super.dispose();
@@ -39,19 +39,12 @@ class _LoginScreenState extends State<LoginScreen> {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
         var payload = {
-          'username': _controllerUsername.text,
+          'username': _controllerEmail.text,
           'password': _controllerPassword.text,
         };
 
-        await AuthenticationServices.login(payload);
+        await AuthenticationServices.login(payload, context);
         await AuthenticationServices.getProfile();
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Processing Data')),
-        );
-
-        await Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => DefaultLayout()));
       } else
         return;
     } catch (e) {
@@ -74,17 +67,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Container(
-                      width: width * 0.3,
-                      height: height * 0.3,
-                      child: CircleAvatar(
-                        backgroundColor: AppTheme.colors.primary,
-                        foregroundColor: AppTheme.colors.notWhite,
-                        child: Icon(
-                          Icons.pets,
-                          size: 54,
+                        width: width * 0.3,
+                        height: height * 0.3,
+                        child: Image.asset('assets/images/logogog.png')
+                        // CircleAvatar(
+                        //     backgroundColor: AppTheme.colors.primary,
+                        //     foregroundColor: AppTheme.colors.notWhite,
+                        //     child: Image.asset('assets/images/logogog.png')),
                         ),
-                      ),
-                    ),
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(
@@ -100,13 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.left,
                     style: AppTheme.style.titleFontStyle,
                   ),
-                  loginForm(
-                      formKey: _formKey,
-                      controllerUsername: _controllerUsername,
-                      controllerPassword: _controllerPassword,
-                      submitForm: _submitForm),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 4),
+                    child: loginForm(
+                        formKey: _formKey,
+                        controllerEmail: _controllerEmail,
+                        controllerPassword: _controllerPassword,
+                        submitForm: _submitForm),
+                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Not registered?',
@@ -120,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   builder: (context) => RegisterScreen()));
                         },
                         child: Text(
-                          'Create an register',
+                          'Create an account',
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
