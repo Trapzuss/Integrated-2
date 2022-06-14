@@ -25,6 +25,18 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
       appBar: AppBar(
         backgroundColor: AppTheme.colors.notWhite,
         elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SizedBox(
+                height: 30,
+                width: 80,
+                child: ElevatedButton(
+                  child: Text('Post'),
+                  onPressed: () {},
+                )),
+          ],
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

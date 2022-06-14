@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_integrated/layouts/default_layout.dart';
-import 'package:pet_integrated/mixins/authentication.dart';
+import 'package:pet_integrated/services/authentication.dart';
 
 import 'package:pet_integrated/screens/chat/chat_screen.dart';
 import 'package:pet_integrated/screens/auth/register_screen.dart';
@@ -52,7 +52,8 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: Color.fromARGB(255, 235, 235, 235),
             colorScheme: ColorScheme.fromSwatch()
                 .copyWith(primary: AppTheme.colors.primary),
-            appBarTheme: AppBarTheme(foregroundColor: AppTheme.colors.primary)),
+            appBarTheme:
+                AppBarTheme(foregroundColor: AppTheme.colors.notWhite)),
         home: SplashScreen());
   }
 }

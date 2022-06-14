@@ -61,8 +61,9 @@ class AppStyle {
       color: AppTheme.colors.subInfoFontColor,
       fontSize: 12);
 
-  textFieldStyle({hinttext: String}) {
+  textFieldStyle({hinttext: String, prefixIcon: null}) {
     return InputDecoration(
+        prefixIcon: prefixIcon,
         hintStyle: TextStyle(fontSize: 12, height: 2),
         hintText: '${hinttext}',
         border: OutlineInputBorder(
@@ -82,4 +83,6 @@ class AppStyle {
 class AppSrc {
   final String profileImage =
       'https://i.pinimg.com/564x/a6/a5/9c/a6a59cf39b63d214cb7feab97b8c9a59.jpg';
+  final empty =
+      'https://img.freepik.com/free-vector/cautious-dog-concept-illustration_114360-5228.jpg?w=740&t=st=1651687836~exp=1651688436~hmac=0d43f76081c7d3dda56fe2cbe3e90995625001dd1cd4474469dd8896aa327c3a';
 }

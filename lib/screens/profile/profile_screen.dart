@@ -6,7 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pet_integrated/layouts/default_layout.dart';
-import 'package:pet_integrated/mixins/authentication.dart';
+import 'package:pet_integrated/services/authentication.dart';
 import 'package:pet_integrated/screens/auth/login_screen.dart';
 import 'package:pet_integrated/screens/auth/register_screen.dart';
 import 'package:pet_integrated/widgets/profile/profile_body.dart';
@@ -22,8 +22,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   var _access_token = '';
-  var _username = '';
   var _isLogin = false;
+  var _user = null;
+
   @override
   initState() {
     initialUserData();
@@ -43,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // print('is set');
       setState(() {
         _access_token = access_token as String;
-        _username = userMap['userDisplayName'];
+        _user = userMap;
         _isLogin = true;
       });
     }
@@ -91,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             //         child: Text('Logout')),
             // Text('_access_token:${_access_token}'),
             // Text('username:${_username}'),
-            ProfileHeader(),
+            ProfileHeader(user: _user),
             ProfileBody(),
           ],
         ),

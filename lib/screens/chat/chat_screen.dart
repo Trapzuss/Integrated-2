@@ -106,28 +106,32 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 110,
-        flexibleSpace: Container(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [DetailChatAppBar(), DetailContactInfo()],
-        )),
+        flexibleSpace: SafeArea(
+          child: Container(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [DetailChatAppBar(), DetailContactInfo()],
+          )),
+        ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-              child: socket.connected
-                  ? DetailMessages(
-                      // refresh: _fetchMessage,
-                      messages: messages,
-                      sendMessage: _sendMessage,
-                      messageController: _messageController,
-                    )
-                  : Container(
-                      child: Center(
-                        child: Text('Connecting...'),
-                      ),
-                    )),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+                child: socket.connected
+                    ? DetailMessages(
+                        // refresh: _fetchMessage,
+                        messages: messages,
+                        sendMessage: _sendMessage,
+                        messageController: _messageController,
+                      )
+                    : Container(
+                        child: Center(
+                          child: Text('Connecting...'),
+                        ),
+                      )),
+          ],
+        ),
       ),
     );
   }
