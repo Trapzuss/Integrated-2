@@ -4,14 +4,14 @@ import 'package:pet_integrated/utils/theme.dart';
 
 class loginForm extends StatefulWidget {
   var formKey = GlobalKey<FormState>();
-  var controllerUsername = TextEditingController();
+  var controllerEmail = TextEditingController();
   var controllerPassword = TextEditingController();
 
   Function submitForm;
   loginForm(
       {Key? key,
       required this.formKey,
-      required this.controllerUsername,
+      required this.controllerEmail,
       required this.controllerPassword,
       required this.submitForm})
       : super(key: key);
@@ -21,19 +21,15 @@ class loginForm extends StatefulWidget {
 }
 
 class _loginFormState extends State<loginForm> {
-  String? _usernameRules(String? value) {
+  String? _EmailRules(String? value) {
     if (value == null || value.isEmpty) {
-      return 'username is required';
-    } else if (value != null && value.contains('@')) {
-      return 'Do not use the @ char.';
+      return 'Email is required';
     }
   }
 
   String? _passwordRules(String? value) {
     if (value == null || value.isEmpty) {
       return 'password is required';
-    } else if (value != null && value.contains('@')) {
-      return 'Do not use the @ char.';
     }
   }
 
@@ -48,26 +44,11 @@ class _loginFormState extends State<loginForm> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 8),
               child: TextFormField(
-                validator: _usernameRules,
-                controller: widget.controllerUsername,
-                decoration: InputDecoration(
-                  filled: true,
-                  labelText: "Enter Username",
-                  fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 2.0,
-                    ),
-                  ),
-                ),
+                validator: _EmailRules,
+                controller: widget.controllerEmail,
+                decoration: AppTheme.style.textFieldStyle(
+                    hinttext: 'Enter your email',
+                    prefixIcon: Icon(Icons.email)),
               ),
             ),
             Container(
@@ -76,24 +57,9 @@ class _loginFormState extends State<loginForm> {
                 validator: _passwordRules,
                 controller: widget.controllerPassword,
                 obscureText: true,
-                decoration: InputDecoration(
-                  filled: true,
-                  labelText: "Enter Password",
-                  fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 2.0,
-                    ),
-                  ),
-                ),
+                decoration: AppTheme.style.textFieldStyle(
+                    hinttext: 'Enter your password',
+                    prefixIcon: Icon(Icons.lock)),
               ),
             ),
             Container(
