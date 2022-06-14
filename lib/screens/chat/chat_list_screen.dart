@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pet_integrated/screens/chat/chat_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
 class ChatListScreen extends StatefulWidget {
@@ -74,8 +75,16 @@ class _ChatListScreenState extends State<ChatListScreen> {
                 trailing: Container(
                   width: 35,
                   child: ElevatedButton(
-                      onPressed: () {},
-                      child: Icon(Icons.chat),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ChatScreen();
+                        }));
+                      },
+                      child: Icon(
+                        Icons.chat,
+                        size: 18,
+                      ),
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.all(0),
                           elevation: 0,
