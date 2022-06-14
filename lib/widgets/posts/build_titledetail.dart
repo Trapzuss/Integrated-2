@@ -31,7 +31,7 @@ class BuildTitle extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Icon(Icons.location_on_rounded, color: Colors.red[400]),
+                  Icon(Icons.location_on_rounded, color: Colors.red[300]),
                   Text(
                     '4517 Klongthom, Bangkok',
                     style: TextStyle(

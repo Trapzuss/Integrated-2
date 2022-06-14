@@ -73,7 +73,10 @@ class BuildContactDetail extends StatelessWidget {
                   width: 35,
                   child: ElevatedButton(
                       onPressed: () {},
-                      child: Icon(Icons.chat),
+                      child: Icon(
+                        Icons.chat,
+                        size: 16,
+                      ),
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.all(0),
                           elevation: 0,
