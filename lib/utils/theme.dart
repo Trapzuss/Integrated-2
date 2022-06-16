@@ -14,6 +14,7 @@ class AppTheme {
 
 class AppColors {
   // final primary = const Color(0xFF126F63);
+  final primaryShade = Color.fromARGB(255, 216, 231, 185);
   final primary = const Color(0xFFACBD86);
   final primaryFontColor = const Color(0xFF202020);
   final secondaryFontColor = const Color(0xFFFFFCF1);
@@ -59,7 +60,7 @@ class AppStyle {
   final secondaryFontStyle = TextStyle(
       overflow: TextOverflow.fade,
       color: AppTheme.colors.subInfoFontColor,
-      fontSize: 12);
+      fontSize: 10);
 
   textFieldStyle({hinttext: String, prefixIcon: null}) {
     return InputDecoration(
