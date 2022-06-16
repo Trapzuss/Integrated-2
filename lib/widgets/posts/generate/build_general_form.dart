@@ -8,7 +8,8 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
 class BuildGeneralForm extends StatefulWidget {
-  var controllerTitle = TextEditingController();
+  var post;
+  // var controllerTitle = TextEditingController();
   var controllerDescription = TextEditingController();
   var controllerPetname = TextEditingController();
   var controllerSex = TextEditingController();
@@ -18,9 +19,10 @@ class BuildGeneralForm extends StatefulWidget {
 
   BuildGeneralForm({
     Key? key,
+    this.post,
     required this.scaffoldKey,
     required this.getGeneralInfoAction,
-    required this.controllerTitle,
+    // required this.controllerTitle,
     required this.controllerDescription,
     required this.controllerPetname,
     required this.controllerSex,
@@ -67,12 +69,20 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
               style: AppTheme.style.primaryFontStyle,
             ),
           ),
+          // Container(
+          //   margin: EdgeInsets.only(bottom: 5),
+          //   child: TextFormField(
+          //     controller: widget.controllerTitle,
+          //     decoration:
+          //         AppTheme.style.textFieldStyle(hinttext: 'Enter your title'),
+          //   ),
+          // ),
           Container(
             margin: EdgeInsets.only(bottom: 5),
             child: TextFormField(
-              controller: widget.controllerTitle,
-              decoration:
-                  AppTheme.style.textFieldStyle(hinttext: 'Enter your title'),
+              controller: widget.controllerPetname,
+              decoration: AppTheme.style
+                  .textFieldStyle(hinttext: 'Enter your pet\'s name'),
             ),
           ),
           Container(
@@ -85,14 +95,7 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
                   hinttext: 'Enter your description (Behavior, Breed, etc.)'),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 5),
-            child: TextFormField(
-              controller: widget.controllerPetname,
-              decoration: AppTheme.style
-                  .textFieldStyle(hinttext: 'Enter your pet\'s name'),
-            ),
-          ),
+
           Container(
               margin: EdgeInsets.only(bottom: 5),
               decoration: BoxDecoration(

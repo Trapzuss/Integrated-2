@@ -9,8 +9,10 @@ import 'package:pet_integrated/common/empty_widget.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
 class BuildPostImage extends StatefulWidget {
+  var post;
   var pickImageAction;
-  BuildPostImage({Key? key, required this.pickImageAction}) : super(key: key);
+  BuildPostImage({Key? key, required this.pickImageAction, this.post})
+      : super(key: key);
 
   @override
   State<BuildPostImage> createState() => _BuildPostImageState();

@@ -9,16 +9,20 @@ import 'package:pet_integrated/widgets/posts/generate/build_post_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GeneratePostScreen extends StatefulWidget {
-  const GeneratePostScreen({Key? key}) : super(key: key);
+  String action;
+  var post;
+  GeneratePostScreen({Key? key, required this.action, this.post})
+      : super(key: key);
 
   @override
   State<GeneratePostScreen> createState() => _GeneratePostScreenState();
 }
 
 class _GeneratePostScreenState extends State<GeneratePostScreen> {
+  var _post;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var _formKey = GlobalKey<FormState>();
-  var _controllerTitle = TextEditingController();
+  // var _controllerTitle = TextEditingController();
   var _controllerDescription = TextEditingController();
   var _controllerPetname = TextEditingController();
   var _controllerSex = TextEditingController();
@@ -92,6 +96,12 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
   }
 
   @override
+  void initState() {
+    _post = widget.post;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -115,9 +125,10 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: BuildPostForm(
+              post: _post,
               scaffoldKey: _scaffoldKey,
               formKey: _formKey,
-              controllerTitle: _controllerTitle,
+              // controllerTitle: _controllerTitle,
               controllerAge: _controllerAge,
               controllerCountry: _controllerCountry,
               controllerDescription: _controllerDescription,

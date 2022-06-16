@@ -5,10 +5,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
 class BuildCostForm extends StatefulWidget {
+  var post;
   var controllerPrice = TextEditingController();
   var getCostInfoAction;
   BuildCostForm(
       {Key? key,
+      this.post,
       required this.controllerPrice,
       required this.getCostInfoAction})
       : super(key: key);

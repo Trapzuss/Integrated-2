@@ -5,12 +5,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
 class BuildAddressForm extends StatefulWidget {
+  var post;
   var controllerDistrict = TextEditingController();
   var controllerProvince = TextEditingController();
   var controllerCountry = TextEditingController();
   var getAddressInfoAction;
   BuildAddressForm(
       {Key? key,
+      this.post,
       required this.controllerDistrict,
       required this.controllerProvince,
       required this.controllerCountry,
