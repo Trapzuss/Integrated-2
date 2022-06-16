@@ -91,4 +91,34 @@ class PostServices {
   static Future<void> updatePost(context, post) async {}
 
   static Future<void> deletePost(context, post) async {}
+
+  static Future getPostByPostId(String postId) async {
+    try {
+      var response = await Dio().get('${api_uri}/posts/${postId}');
+      // debugPrint(response.toString());
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future getPosts() async {
+    try {
+      var response = await Dio().get('${api_uri}/posts');
+      // debugPrint(response.toString());
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future getPostsByUserId(String userId) async {
+    try {
+      var response = await Dio().get('${api_uri}/posts?userId=$userId');
+      // debugPrint(response.toString());
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }
