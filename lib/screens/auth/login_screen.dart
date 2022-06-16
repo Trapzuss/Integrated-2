@@ -43,7 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
           'password': _controllerPassword.text,
         };
 
-        await AuthenticationServices.login(payload, context);
+        await AuthenticationServices.login(
+          context,
+          payload,
+        );
         await AuthenticationServices.getProfile();
       } else
         return;

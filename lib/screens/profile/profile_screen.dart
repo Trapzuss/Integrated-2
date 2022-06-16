@@ -93,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Text('_access_token:${_access_token}'),
             // Text('username:${_username}'),
             ProfileHeader(user: _user),
-            ProfileBody(),
+            _isLogin ? ProfileBody() : Container(),
           ],
         ),
       ),
