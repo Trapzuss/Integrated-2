@@ -155,7 +155,8 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => GeneratePostScreen()));
+                                  builder: (context) =>
+                                      GeneratePostScreen(action: 'create')));
                         },
                       ),
                       ProfileActionCard(
@@ -169,18 +170,18 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                                   builder: (context) => ProfilePostsScreen()));
                         },
                       ),
-                      ProfileActionCard(
-                        title: 'History',
-                        icon: Icons.history,
-                        color: Color.fromARGB(255, 180, 199, 132),
-                        action: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProfileHistoryScreen()));
-                        },
-                      )
+                      // ProfileActionCard(
+                      //   title: 'History',
+                      //   icon: Icons.history,
+                      //   color: Color.fromARGB(255, 180, 199, 132),
+                      //   action: () {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //             builder: (context) =>
+                      //                 ProfileHistoryScreen()));
+                      //   },
+                      // )
                     ],
                   ),
                 )

@@ -22,7 +22,7 @@ class ProfileActionCard extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
-      width: width * 0.3,
+      width: width * 0.46,
       height: height * 0.15,
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
