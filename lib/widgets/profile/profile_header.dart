@@ -108,10 +108,26 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            "You haven't login yet".toString().toUpperCase(),
+                            style: AppTheme.style.titleFontStyle,
+                          ),
                           GestureDetector(
-                            child: Text(
-                              'Log in',
-                              style: AppTheme.style.secondaryFontStyle,
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 2),
+                                  child: Icon(
+                                    Icons.login,
+                                    size: 14,
+                                    color: AppTheme.colors.subInfoFontColor,
+                                  ),
+                                ),
+                                Text(
+                                  'Log in',
+                                  style: AppTheme.style.secondaryFontStyle,
+                                )
+                              ],
                             ),
                             onTap: () {
                               Navigator.pushReplacement(
@@ -125,47 +141,50 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                     )
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ProfileActionCard(
-                  title: 'Pass on Pets',
-                  icon: Icons.add_box,
-                  color: Color.fromARGB(255, 153, 181, 122),
-                  action: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GeneratePostScreen()));
-                  },
-                ),
-                ProfileActionCard(
-                  title: 'Posts',
-                  icon: Icons.pets,
-                  color: Color.fromARGB(255, 179, 191, 128),
-                  action: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProfilePostsScreen()));
-                  },
-                ),
-                ProfileActionCard(
-                  title: 'History',
-                  icon: Icons.history,
-                  color: Color.fromARGB(255, 180, 199, 132),
-                  action: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProfileHistoryScreen()));
-                  },
+          widget.user != null
+              ? Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ProfileActionCard(
+                        title: 'Pass on Pets',
+                        icon: Icons.add_box,
+                        color: Color.fromARGB(255, 153, 181, 122),
+                        action: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GeneratePostScreen()));
+                        },
+                      ),
+                      ProfileActionCard(
+                        title: 'Posts',
+                        icon: Icons.pets,
+                        color: Color.fromARGB(255, 179, 191, 128),
+                        action: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfilePostsScreen()));
+                        },
+                      ),
+                      ProfileActionCard(
+                        title: 'History',
+                        icon: Icons.history,
+                        color: Color.fromARGB(255, 180, 199, 132),
+                        action: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProfileHistoryScreen()));
+                        },
+                      )
+                    ],
+                  ),
                 )
-              ],
-            ),
-          ),
+              : Container(),
         ],
       ),
     );
