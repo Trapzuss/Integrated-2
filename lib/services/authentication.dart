@@ -66,7 +66,10 @@ class AuthenticationServices {
     }
   }
 
-  static Future<void> login(data, context) async {
+  static Future<void> login(
+    context,
+    data,
+  ) async {
     try {
       // print(data);
 
@@ -101,7 +104,10 @@ class AuthenticationServices {
     }
   }
 
-  static Future<void> register(data, context) async {
+  static Future<void> register(
+    context,
+    data,
+  ) async {
     try {
       var response =
           await Dio().post('${api_uri}/auth/register', data: jsonEncode(data));
