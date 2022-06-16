@@ -49,9 +49,9 @@ class AppStyle {
       fontWeight: FontWeight.bold,
       color: AppTheme.colors.darkFontColor);
   final bodyFontStyle = TextStyle(
-      fontSize: 14,
+      fontSize: 12,
       fontWeight: FontWeight.normal,
-      color: AppTheme.colors.darkFontColor);
+      color: AppTheme.colors.infoFontColor);
   final primaryFontStyle = TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class AppStyle {
         hintStyle: TextStyle(fontSize: 12, height: 2),
         hintText: '${hinttext}',
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(15.0),
           borderSide: BorderSide(
             width: 0,
             style: BorderStyle.none,
