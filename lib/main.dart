@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +21,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   var dio = Dio();
   var cookieJar = CookieJar();
   dio.interceptors.add(CookieManager(cookieJar));
@@ -52,8 +54,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: Color.fromARGB(255, 235, 235, 235),
             colorScheme: ColorScheme.fromSwatch()
                 .copyWith(primary: AppTheme.colors.primary),
-            appBarTheme:
-                AppBarTheme(foregroundColor: AppTheme.colors.notWhite)),
+            appBarTheme: AppBarTheme(foregroundColor: AppTheme.colors.primary)),
         home: SplashScreen());
   }
 }
