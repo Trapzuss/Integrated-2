@@ -5,7 +5,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
 class BuildTitle extends StatelessWidget {
-  const BuildTitle({Key? key}) : super(key: key);
+  var post;
+  BuildTitle({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class BuildTitle extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(bottom: 5),
                 child: Text(
-                  'Dog',
+                  post['petName'],
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -33,7 +34,7 @@ class BuildTitle extends StatelessWidget {
                 children: [
                   Icon(Icons.location_on_rounded, color: Colors.red[300]),
                   Text(
-                    '4517 Klongthom, Bangkok',
+                    "${post['address']['district']} ${post['address']['province']}, ${post['address']['country']}",
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -44,7 +45,7 @@ class BuildTitle extends StatelessWidget {
             ],
           ),
           Text(
-            '120',
+            post['price'] == 0 ? "Free" : post['price'].toString(),
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

@@ -75,7 +75,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (_formAddressKey.currentState!.validate() &&
           _formPersonalKey.currentState!.validate()) {
-        await AuthenticationServices.register(payload, context);
+        await AuthenticationServices.register(
+          context,
+          payload,
+        );
       }
     } catch (e) {
       log(e.toString());

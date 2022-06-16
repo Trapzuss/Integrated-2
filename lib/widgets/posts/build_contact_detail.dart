@@ -5,7 +5,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
 class BuildContactDetail extends StatelessWidget {
-  const BuildContactDetail({Key? key}) : super(key: key);
+  var post;
+  BuildContactDetail({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class BuildContactDetail extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(bottom: 5),
                       child: Text(
-                        'Pepo gummee',
+                        "${post['user'][0]['firstName']} ${post['user'][0]['lastName']}",
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,

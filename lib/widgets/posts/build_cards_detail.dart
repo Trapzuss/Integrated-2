@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:pet_integrated/utils/theme.dart';
+import 'package:pet_integrated/utils/utils.dart';
 
 class BuildCardDetail extends StatelessWidget {
-  const BuildCardDetail({Key? key}) : super(key: key);
+  var post;
+  BuildCardDetail({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +16,14 @@ class BuildCardDetail extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          _customCard(context, 'Sex', 'Female'),
-          _customCard(context, 'Age', '2 Year'),
-          _customCard(context, 'Breed', 'Siberian husky'),
+          _customCard(context, 'Sex',
+              ExtensionServices.capitalize(post['sex'].toString())),
+          _customCard(
+            context,
+            'Age',
+            "${post['age']['year'].toString()} Years\n${post['age']['month'].toString()} Months",
+          ),
+          _customCard(context, 'Weight', "${post['weight'].toString()} Kgs"),
         ],
       ),
     );
@@ -61,6 +68,7 @@ Widget _customCard(BuildContext context, title, text) {
             ),
             Text(
               text,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
