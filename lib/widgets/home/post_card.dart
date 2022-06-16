@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:pet_integrated/utils/theme.dart';
+import 'package:pet_integrated/utils/utils.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({Key? key}) : super(key: key);
+  var post;
+  PostCard({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
+    return ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(20),
+        // ),
         child: Container(
           width: width / 2 - 20,
           child: Card(
@@ -24,9 +27,12 @@ class PostCard extends StatelessWidget {
                 children: [
                   Container(
                       margin: EdgeInsets.only(bottom: 6),
-                      child: Image.network(
-                        AppTheme.src.profileImage,
-                        fit: BoxFit.cover,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.network(
+                          post['images'][0].toString(),
+                          fit: BoxFit.cover,
+                        ),
                       )),
                   Container(
                     margin: EdgeInsets.only(bottom: 3),
@@ -34,14 +40,16 @@ class PostCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Doge',
+                          post['petName'],
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: AppTheme.colors.infoFontColor),
                         ),
                         Text(
-                          '134 Baht',
+                          post['price'] == 0
+                              ? "Free"
+                              : post['price'].toString(),
                           style: AppTheme.style.primaryFontStyle,
                         )
                       ],
@@ -60,7 +68,7 @@ class PostCard extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            '4517 Klongthom, Bangkok',
+                            "${post['address']['district']} ${post['address']['province']}, ${post['address']['country']}",
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 12,
@@ -74,21 +82,24 @@ class PostCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        height: 30,
+                        height: 28,
                         margin: EdgeInsets.only(right: 4),
                         child: Chip(
+                            backgroundColor: AppTheme.colors.primaryShade,
                             label: Text(
-                          'Male',
-                          style: AppTheme.style.secondaryFontStyle,
-                        )),
+                              ExtensionServices.capitalize(
+                                  post['sex'].toString()),
+                              style: AppTheme.style.secondaryFontStyle,
+                            )),
                       ),
                       Container(
-                        height: 30,
+                        height: 28,
                         child: Chip(
+                            backgroundColor: AppTheme.colors.primaryShade,
                             label: Text(
-                          '1 Year',
-                          style: AppTheme.style.secondaryFontStyle,
-                        )),
+                              "${post['age']['year'].toString()} yrs,${post['age']['month'].toString()} mo",
+                              style: AppTheme.style.secondaryFontStyle,
+                            )),
                       ),
                     ],
                   ),
@@ -98,12 +109,13 @@ class PostCard extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
+                            radius: 18,
                             backgroundImage:
                                 AssetImage('assets/images/Dogpaw-pana.png'),
                             backgroundColor: Colors.white,
                           ),
                           Text(
-                            "Pet's owner",
+                            post['user'][0]['firstName'].toString(),
                             style: AppTheme.style.primaryFontStyle,
                           )
                         ],

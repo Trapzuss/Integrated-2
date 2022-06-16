@@ -7,14 +7,14 @@ import 'package:pet_integrated/utils/theme.dart';
 import 'package:pet_integrated/widgets/home/post_card.dart';
 
 class PostGridView extends StatefulWidget {
-  const PostGridView({Key? key}) : super(key: key);
+  List posts;
+  PostGridView({Key? key, required this.posts}) : super(key: key);
 
   @override
   State<PostGridView> createState() => _PostGridViewState();
 }
 
 class _PostGridViewState extends State<PostGridView> {
-  List posts = ['1', '2', '3'];
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -22,16 +22,16 @@ class _PostGridViewState extends State<PostGridView> {
     return MasonryGridView.count(
       shrinkWrap: true,
       crossAxisCount: 2,
-      itemCount: posts.length,
+      itemCount: widget.posts.length,
       mainAxisSpacing: 6,
       crossAxisSpacing: 6,
       // shrinkWrap: true,
       itemBuilder: (context, index) {
         return InkWell(
-          child: PostCard(),
+          child: PostCard(post: widget.posts[index]),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return PostScreen();
+              return PostScreen(post: widget.posts[index]);
             }));
           },
         );
