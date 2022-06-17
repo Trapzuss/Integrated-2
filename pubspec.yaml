@@ -31,6 +31,8 @@ dependencies:
     sdk: flutter
     # add this line to your dependencies
 
+  firebase_storage: ^10.2.17
+  firebase_core: ^1.18.0
   dio: ^4.0.6
   cupertino_icons: ^1.0.2
   google_fonts: ^2.3.1
@@ -51,8 +53,6 @@ dependencies:
   cached_network_image: ^3.2.1
   flutter_picker: ^2.0.3
   file_picker: ^4.5.1
-  firebase_storage: ^10.2.17
-  firebase_core: ^1.17.1
 
 dev_dependencies:
   flutter_test:
