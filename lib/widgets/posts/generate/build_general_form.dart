@@ -6,15 +6,16 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:pet_integrated/utils/theme.dart';
+import 'package:pet_integrated/utils/utils.dart';
 
 class BuildGeneralForm extends StatefulWidget {
   var post;
   // var controllerTitle = TextEditingController();
   var controllerDescription = TextEditingController();
   var controllerPetname = TextEditingController();
-  var controllerSex = TextEditingController();
-  var controllerAge = TextEditingController();
-  var controllerWeight = TextEditingController();
+  // var controllerSex = TextEditingController();
+  // var controllerAge = TextEditingController();
+  // var controllerWeight = TextEditingController();
   var getGeneralInfoAction;
 
   BuildGeneralForm({
@@ -25,9 +26,9 @@ class BuildGeneralForm extends StatefulWidget {
     // required this.controllerTitle,
     required this.controllerDescription,
     required this.controllerPetname,
-    required this.controllerSex,
-    required this.controllerAge,
-    required this.controllerWeight,
+    // required this.controllerSex,
+    // required this.controllerAge,
+    // required this.controllerWeight,
   }) : super(key: key);
   final GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -36,6 +37,8 @@ class BuildGeneralForm extends StatefulWidget {
 }
 
 class _BuildGeneralFormState extends State<BuildGeneralForm> {
+  var weightIndex = [0];
+  var ageIndex = [0, 0];
   var generalInfo;
   var sexIcons = {
     'Female': Icons.female,
@@ -54,6 +57,57 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
   var pickerDataWeight = [
     ['< 1', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, '> 10'],
   ];
+
+  @override
+  void initState() {
+    _initialPostData();
+    super.initState();
+  }
+
+  void _initialPostData() {
+    if (widget.post != null) {
+      if (widget.post?['weight'] == null) {
+        _isUnknownWeight = true;
+      }
+      if (widget.post?['age'] == null) {
+        _isUnknownAge = true;
+      }
+      if (_selectedWeight != null) {
+        var index = pickerDataWeight[0].indexWhere(
+            (element) => element.toString() == '${_selectedWeight.toString()}');
+        setState(() {
+          weightIndex = [index];
+        });
+      }
+      if (_selectedAge != null) {
+        var indexY = pickerDataAge[0].indexWhere((element) =>
+            element.toString() == '${_selectedAge?['year'].toString()}');
+        var indexM = pickerDataAge[1].indexWhere((element) =>
+            element.toString() == '${_selectedAge?['month'].toString()}');
+        setState(() {
+          ageIndex = [indexY, indexM];
+        });
+      }
+
+      setState(() {
+        _selectedSex =
+            ExtensionServices.capitalize(widget.post['sex'].toString());
+      });
+      // widget.getGeneralInfoAction(generalInfo);
+    }
+  }
+
+  String? _petNameRules(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill out the pet\'s name';
+    }
+  }
+
+  String? _descriptionRules(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill out the description';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +134,7 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
           Container(
             margin: EdgeInsets.only(bottom: 5),
             child: TextFormField(
+              validator: _petNameRules,
               controller: widget.controllerPetname,
               decoration: AppTheme.style
                   .textFieldStyle(hinttext: 'Enter your pet\'s name'),
@@ -88,6 +143,7 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
           Container(
             margin: EdgeInsets.only(bottom: 5),
             child: TextFormField(
+              validator: _descriptionRules,
               controller: widget.controllerDescription,
               minLines: 4,
               maxLines: 6,
@@ -161,6 +217,11 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
                             setState(() {
                               _isUnknownAge = value;
                             });
+                            if (_isUnknownAge) {
+                              generalInfo = {...generalInfo, "age": null};
+                            }
+
+                            widget.getGeneralInfoAction(generalInfo);
                           })
                     ],
                   ),
@@ -202,6 +263,12 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
                             setState(() {
                               _isUnknownWeight = value;
                             });
+
+                            if (_isUnknownWeight) {
+                              generalInfo = {...generalInfo, "weight": null};
+                            }
+
+                            widget.getGeneralInfoAction(generalInfo);
                           })
                     ],
                   ),
@@ -258,21 +325,23 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
 
   _showPicker(BuildContext context, String action) {
     var pickerData = {'weight': pickerDataWeight, 'age': pickerDataAge};
-    var weightIndex = [0];
-    var ageIndex = [0, 0];
+    weightIndex = [0];
+    ageIndex = [0, 0];
     if (_selectedWeight != null) {
       var index = pickerDataWeight[0].indexWhere(
           (element) => element.toString() == '${_selectedWeight.toString()}');
-      weightIndex = [index];
-
-      weightIndex = [index];
+      setState(() {
+        weightIndex = [index];
+      });
     }
     if (_selectedAge != null) {
       var indexY = pickerDataAge[0].indexWhere((element) =>
           element.toString() == '${_selectedAge['year'].toString()}');
       var indexM = pickerDataAge[1].indexWhere((element) =>
           element.toString() == '${_selectedAge['month'].toString()}');
-      ageIndex = [indexY, indexM];
+      setState(() {
+        ageIndex = [indexY, indexM];
+      });
     }
 
     Picker(
@@ -307,11 +376,12 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
               : generalInfo = {...generalInfo, ...payload};
 
           if (_isUnknownAge) {
-            generalInfo = {...generalInfo, "age": 'unknown'};
+            generalInfo = {...generalInfo, "age": null};
           }
           if (_isUnknownWeight) {
-            generalInfo = {...generalInfo, "weight": 'unknown'};
+            generalInfo = {...generalInfo, "weight": null};
           }
+
           widget.getGeneralInfoAction(generalInfo);
         }).showDialog(context);
   }

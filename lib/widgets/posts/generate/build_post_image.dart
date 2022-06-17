@@ -41,20 +41,33 @@ class _BuildPostImageState extends State<BuildPostImage> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        child: mediaFile == null
-            ? EmptyImageTypeCreatePost()
-            : Container(
+        child: widget.post?['images']?[0] != null
+            ? Container(
                 margin:
                     EdgeInsets.only(bottom: 10, top: 10, right: 10, left: 10),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.file(
-                    mediaFile!,
+                  child: Image.network(
+                    widget.post?['images']?[0],
                     height: 200,
                     fit: BoxFit.contain,
                   ),
                 ),
-              ),
+              )
+            : mediaFile == null
+                ? EmptyImageTypeCreatePost()
+                : Container(
+                    margin: EdgeInsets.only(
+                        bottom: 10, top: 10, right: 10, left: 10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(
+                        mediaFile!,
+                        height: 200,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
         onTap: () {
           selectFile();
         });

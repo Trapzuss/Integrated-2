@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pet_integrated/common/empty_widget.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:pet_integrated/utils/utils.dart';
 
@@ -29,10 +30,12 @@ class PostCard extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 6),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: Image.network(
-                          post['images'][0].toString(),
-                          fit: BoxFit.cover,
-                        ),
+                        child: post?['images']?[0] == null
+                            ? EmptyImage()
+                            : Image.network(
+                                post['images'][0].toString(),
+                                fit: BoxFit.cover,
+                              ),
                       )),
                   Container(
                     margin: EdgeInsets.only(bottom: 3),
@@ -97,7 +100,7 @@ class PostCard extends StatelessWidget {
                         child: Chip(
                             backgroundColor: AppTheme.colors.primaryShade,
                             label: Text(
-                              "${post['age']['year'].toString()} yrs,${post['age']['month'].toString()} mo",
+                              getAgeComputed(),
                               style: AppTheme.style.secondaryFontStyle,
                             )),
                       ),
@@ -140,5 +143,13 @@ class PostCard extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  getAgeComputed() {
+    if ("${post?['age']?['year']}" == null ||
+        "${post?['age']?['year']}" == "null") {
+      return 'Unknown';
+    }
+    return "${post?['age']?['year'].toString()} yrs,${post?['age']?['month'].toString()} mo";
   }
 }

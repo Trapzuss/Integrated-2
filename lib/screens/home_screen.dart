@@ -24,9 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
             return EmptyPostsTypeError(error: snapshot.error.toString());
           } else if (snapshot.hasData) {
             final List posts = snapshot.data as List;
-            // if (posts.isEmpty) {
-            //   return EmptyPostsTypeEmpty();
-            // }
+            if (posts.isEmpty) {
+              return EmptyPostsTypeEmpty();
+            }
             return Container(
               margin: EdgeInsets.only(
                 left: 10,

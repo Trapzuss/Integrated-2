@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -21,17 +22,17 @@ class GeneratePostScreen extends StatefulWidget {
 class _GeneratePostScreenState extends State<GeneratePostScreen> {
   var _post;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   // var _controllerTitle = TextEditingController();
-  var _controllerDescription = TextEditingController();
-  var _controllerPetname = TextEditingController();
-  var _controllerSex = TextEditingController();
-  var _controllerAge = TextEditingController();
-  var _controllerWeight = TextEditingController();
-  var _controllerDistrict = TextEditingController();
-  var _controllerProvince = TextEditingController();
-  var _controllerCountry = TextEditingController();
-  var _controllerPrice = TextEditingController();
+  final _controllerDescription = TextEditingController();
+  final _controllerPetname = TextEditingController();
+  // var _controllerSex = TextEditingController();
+  // var _controllerAge = TextEditingController();
+  // var _controllerWeight = TextEditingController();
+  final _controllerDistrict = TextEditingController();
+  final _controllerProvince = TextEditingController();
+  final _controllerCountry = TextEditingController();
+  final _controllerPrice = TextEditingController();
   File? _mediaFile;
   var generalInfo;
   var addressInfo;
@@ -64,31 +65,93 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
 
   Future _submitForm() async {
     try {
-      var payload = {
-        "petName": _controllerPetname.text,
-        "images": [_mediaFile],
-        "address": {
-          "district":
-              addressInfo?['district'] != null ? addressInfo['district'] : -1,
-          "province":
-              addressInfo?['province'] != null ? addressInfo['province'] : -1,
-          "country":
-              addressInfo?['country'] != null ? addressInfo['country'] : -1,
-        },
-        "description": _controllerDescription.text,
-        "sex": generalInfo['sex'],
-        "age": generalInfo['age'],
-        "weight": generalInfo['weight'],
-        "price": costInfo?['price'] != null ? costInfo['price'] : 0,
-      };
-      // print(payload);
-      final isValid = _formKey.currentState!.validate();
-      if (isValid) {
-        print('Valid');
-        PostServices.createPost(context, payload);
-      } else {
-        print('isNotValid');
-        print(_formKey.currentContext);
+      // #create post
+      if (widget.action != 'edit') {
+        var payload = {
+          "petName": _controllerPetname.text,
+          "images": [_mediaFile],
+          "address": {
+            "district":
+                addressInfo?['district'] != null ? addressInfo['district'] : -1,
+            "province":
+                addressInfo?['province'] != null ? addressInfo['province'] : -1,
+            "country":
+                addressInfo?['country'] != null ? addressInfo['country'] : -1,
+          },
+          "description": _controllerDescription.text,
+          "sex": generalInfo['sex'],
+          "age": generalInfo['age'],
+          "weight": generalInfo['weight'],
+          "price": costInfo?['price'] != null ? costInfo['price'] : 0,
+        };
+        // print(payload);
+        final isValid = _formKey.currentState!.validate();
+        if (isValid) {
+          // print('Valid');
+          PostServices.createPost(context, payload);
+        } else {
+          BotToast.showNotification(
+            crossPage: true,
+            backgroundColor: Colors.amber[400],
+            leading: (cancel) => SizedBox.fromSize(
+                size: const Size(40, 40),
+                child: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.white),
+                  onPressed: cancel,
+                )),
+            duration: Duration(seconds: 3),
+            title: (_) => const Text(
+              'Please fill out all required fields.',
+              style: TextStyle(color: Colors.white),
+            ),
+            // subtitle: (_) => Text('Please fill out all required fields.'),
+          );
+          print(_formKey.currentContext);
+        }
+      }
+      // #edit post
+      if (widget.action == 'edit') {
+        var payload = {
+          "_id": widget.post['_id'],
+          "petName": _controllerPetname.text,
+          "images": [_mediaFile],
+          "address": {
+            "district":
+                addressInfo?['district'] != null ? addressInfo['district'] : -1,
+            "province":
+                addressInfo?['province'] != null ? addressInfo['province'] : -1,
+            "country":
+                addressInfo?['country'] != null ? addressInfo['country'] : -1,
+          },
+          "description": _controllerDescription.text,
+          "sex": generalInfo['sex'],
+          "age": generalInfo['age'],
+          "weight": generalInfo['weight'],
+          "price": costInfo?['price'] != null ? costInfo['price'] : 0,
+        };
+        // print(payload);
+        final isValid = _formKey.currentState!.validate();
+        if (isValid) {
+          PostServices.updatePost(context, payload);
+        } else {
+          BotToast.showNotification(
+            crossPage: true,
+            backgroundColor: Colors.amber[400],
+            leading: (cancel) => SizedBox.fromSize(
+                size: const Size(40, 40),
+                child: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.white),
+                  onPressed: cancel,
+                )),
+            duration: Duration(seconds: 3),
+            title: (_) => const Text(
+              'Please fill out all required fields.',
+              style: TextStyle(color: Colors.white),
+            ),
+            // subtitle: (_) => Text('Please fill out all required fields.'),
+          );
+          print(_formKey.currentContext);
+        }
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -114,7 +177,7 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
                 height: 30,
                 width: 80,
                 child: ElevatedButton(
-                  child: Text('Post'),
+                  child: Text(widget.action == 'edit' ? 'Edit' : 'Post'),
                   onPressed: () async {
                     await _submitForm();
                   },
@@ -129,15 +192,15 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
               scaffoldKey: _scaffoldKey,
               formKey: _formKey,
               // controllerTitle: _controllerTitle,
-              controllerAge: _controllerAge,
+              // controllerAge: _controllerAge,
               controllerCountry: _controllerCountry,
               controllerDescription: _controllerDescription,
               controllerDistrict: _controllerDistrict,
               controllerPetname: _controllerPetname,
               controllerPrice: _controllerPrice,
               controllerProvince: _controllerProvince,
-              controllerSex: _controllerSex,
-              controllerWeight: _controllerWeight,
+              // controllerSex: _controllerSex,
+              // controllerWeight: _controllerWeight,
               pickImageAction: pickImage,
               getGeneralInfoAction: getGeneralInfo,
               getAddressInfoAction: getAddressInfo,

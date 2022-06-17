@@ -121,11 +121,11 @@ class EmptyPostsTypeEmpty extends StatelessWidget {
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.colors.secondaryFontColor)),
+                color: AppTheme.colors.darkFontColor)),
         Container(
           margin: EdgeInsets.symmetric(vertical: 4),
           child: Text("No post found. Let's add a new post",
-              style: TextStyle(color: AppTheme.colors.secondaryFontColor)),
+              style: TextStyle(color: AppTheme.colors.darkFontColor)),
         ),
         // gradientButton(
         //   text: 'New post',

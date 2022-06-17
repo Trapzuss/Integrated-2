@@ -23,6 +23,24 @@ class _BuildCostFormState extends State<BuildCostForm> {
   bool _isFree = true;
 
   @override
+  void initState() {
+    _initialPostData();
+    super.initState();
+  }
+
+  void _initialPostData() {
+    if (widget.post != null) {
+      _isFree = widget.post['price'] == 0;
+    }
+  }
+
+  String? _costRules(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill out the cost';
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
@@ -67,6 +85,7 @@ class _BuildCostFormState extends State<BuildCostForm> {
               : Container(
                   margin: EdgeInsets.only(bottom: 5),
                   child: TextFormField(
+                    validator: !_isFree ? _costRules : null,
                     controller: widget.controllerPrice,
                     keyboardType: TextInputType.number,
                     decoration:
