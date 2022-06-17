@@ -21,7 +21,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
   var dio = Dio();
   var cookieJar = CookieJar();
   dio.interceptors.add(CookieManager(cookieJar));
@@ -32,11 +32,20 @@ Future<void> main() async {
     await AuthenticationServices.getProfile();
   }
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  Future _initFirebase() async {
+    try {
+      await Firebase.initializeApp();
+    } catch (e) {
+      print(e);
+      return e;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +64,19 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch()
                 .copyWith(primary: AppTheme.colors.primary),
             appBarTheme: AppBarTheme(foregroundColor: AppTheme.colors.primary)),
-        home: SplashScreen());
+        home: FutureBuilder(
+            future: _initFirebase(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                return SplashScreen();
+              }
+              return Center(
+                  child: CircularProgressIndicator(
+                color: AppTheme.colors.primary,
+              ));
+            }));
   }
 }
