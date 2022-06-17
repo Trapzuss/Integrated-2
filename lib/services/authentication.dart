@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -16,7 +17,8 @@ import 'package:pet_integrated/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationServices {
-  static final api_uri = dotenv.env['API_URI'];
+  static final api_uri =
+      Platform.isWindows ? dotenv.env['API_URI_WEB'] : dotenv.env['API_URI'];
   static Future<void> logout(context) async {
     try {
       AwesomeDialog(

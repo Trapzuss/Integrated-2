@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +12,8 @@ import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PostServices {
-  static final api_uri = dotenv.env['API_URI'];
+  static final api_uri =
+      Platform.isWindows ? dotenv.env['API_URI_WEB'] : dotenv.env['API_URI'];
   static Future<void> createPost(context, post) async {
     var isLoading = BotToast.showLoading();
     var mediaFile = post['images'][0];
@@ -58,7 +60,7 @@ class PostServices {
         "weight": post['weight'],
         "price": post['price'],
       };
-      print(payload);
+      // print(payload);
 
       var response = await Dio().post('${api_uri}/posts', data: payload);
       // debugPrint(response.toString());
@@ -104,6 +106,7 @@ class PostServices {
 
   static Future getPosts() async {
     try {
+      // print(api_uri);
       var response = await Dio().get('${api_uri}/posts');
       // debugPrint(response.toString());
       return response.data;
