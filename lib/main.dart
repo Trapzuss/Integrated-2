@@ -21,7 +21,6 @@ import 'package:cookie_jar/cookie_jar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   var dio = Dio();
   var cookieJar = CookieJar();
   dio.interceptors.add(CookieManager(cookieJar));
@@ -64,6 +63,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch()
                 .copyWith(primary: AppTheme.colors.primary),
             appBarTheme: AppBarTheme(foregroundColor: AppTheme.colors.primary)),
+          
         home: FutureBuilder(
             future: _initFirebase(),
             builder: (context, snapshot) {
@@ -78,5 +78,7 @@ class MyApp extends StatelessWidget {
                 color: AppTheme.colors.primary,
               ));
             }));
+
+        // home: SplashScreen()
   }
 }
