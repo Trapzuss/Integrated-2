@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pet_integrated/common/empty_widget.dart';
 import 'package:pet_integrated/screens/posts/generate_post_screen.dart';
 import 'package:pet_integrated/screens/posts/post_screen.dart';
 import 'package:pet_integrated/services/posts.dart';
@@ -41,8 +42,9 @@ class BuildImage extends StatelessWidget {
               color: Colors.white),
           width: MediaQuery.of(context).size.width,
           child: ClipRRect(
-            child:
-                Image.network(post['images'][0].toString(), fit: BoxFit.cover),
+            child: post?['images']?[0].toString() != null
+                ? Image.network(post['images'][0].toString(), fit: BoxFit.cover)
+                : EmptyImage(),
             // child: Image(image: AssetImage('assets/images/Dog-paw-rafiki.png')),
           ),
         ),

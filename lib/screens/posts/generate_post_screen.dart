@@ -114,44 +114,57 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
         var payload = {
           "_id": widget.post['_id'],
           "petName": _controllerPetname.text,
-          "images": [_mediaFile],
+          "images": [
+            _mediaFile != null ? _mediaFile : widget.post?['images']?[0]
+          ],
           "address": {
-            "district":
-                addressInfo?['district'] != null ? addressInfo['district'] : -1,
-            "province":
-                addressInfo?['province'] != null ? addressInfo['province'] : -1,
-            "country":
-                addressInfo?['country'] != null ? addressInfo['country'] : -1,
+            "district": addressInfo?['district'] == null
+                ? _controllerDistrict.text
+                : addressInfo['district'],
+            "province": addressInfo?['province'] == null
+                ? _controllerProvince.text
+                : addressInfo['province'],
+            "country": addressInfo?['country'] == null
+                ? _controllerCountry.text
+                : addressInfo['country']
           },
           "description": _controllerDescription.text,
-          "sex": generalInfo['sex'],
-          "age": generalInfo['age'],
-          "weight": generalInfo['weight'],
-          "price": costInfo?['price'] != null ? costInfo['price'] : 0,
+          "sex": generalInfo?['sex'] == null
+              ? widget.post['sex']
+              : generalInfo?['sex'],
+          "age": generalInfo?['age'] == null
+              ? widget.post['sex']
+              : generalInfo?['age'],
+          "weight": generalInfo?['weight'] == null
+              ? widget.post['weight']
+              : generalInfo?['weight'],
+          "price": costInfo?['price'] != null
+              ? costInfo['price']
+              : widget.post['price'],
         };
-        // print(payload);
-        final isValid = _formKey.currentState!.validate();
-        if (isValid) {
-          PostServices.updatePost(context, payload);
-        } else {
-          BotToast.showNotification(
-            crossPage: true,
-            backgroundColor: Colors.amber[400],
-            leading: (cancel) => SizedBox.fromSize(
-                size: const Size(40, 40),
-                child: IconButton(
-                  icon: Icon(Icons.delete, color: Colors.white),
-                  onPressed: cancel,
-                )),
-            duration: Duration(seconds: 3),
-            title: (_) => const Text(
-              'Please fill out all required fields.',
-              style: TextStyle(color: Colors.white),
-            ),
-            // subtitle: (_) => Text('Please fill out all required fields.'),
-          );
-          print(_formKey.currentContext);
-        }
+        print(payload);
+        // final isValid = _formKey.currentState!.validate();
+        // if (isValid) {
+        //   PostServices.updatePost(context, payload);
+        // } else {
+        //   BotToast.showNotification(
+        //     crossPage: true,
+        //     backgroundColor: Colors.amber[400],
+        //     leading: (cancel) => SizedBox.fromSize(
+        //         size: const Size(40, 40),
+        //         child: IconButton(
+        //           icon: Icon(Icons.delete, color: Colors.white),
+        //           onPressed: cancel,
+        //         )),
+        //     duration: Duration(seconds: 3),
+        //     title: (_) => const Text(
+        //       'Please fill out all required fields.',
+        //       style: TextStyle(color: Colors.white),
+        //     ),
+        //     // subtitle: (_) => Text('Please fill out all required fields.'),
+        //   );
+        //   print(_formKey.currentContext);
+        // }
       }
     } catch (e) {
       debugPrint(e.toString());
