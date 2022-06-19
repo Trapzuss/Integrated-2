@@ -96,9 +96,14 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
       setState(() {
         _selectedSex =
             ExtensionServices.capitalize(widget.post['sex'].toString());
+        generalInfo = {
+          "age": widget.post?['age'],
+          "weight": widget.post?['weight']
+        };
       });
-      print(_selectedWeight);
-      print(_selectedAge);
+
+      // print(_selectedWeight);
+      // print(_selectedAge);
     }
   }
 
@@ -222,8 +227,13 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
                             setState(() {
                               _isUnknownAge = value;
                             });
-                            if (_isUnknownAge && generalInfo != null) {
+                            if (_isUnknownAge) {
                               generalInfo = {...generalInfo, "age": null};
+                            } else {
+                              generalInfo = {
+                                ...generalInfo,
+                                "age": _selectedAge
+                              };
                             }
 
                             widget.getGeneralInfoAction(generalInfo);
@@ -269,8 +279,13 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
                               _isUnknownWeight = value;
                             });
 
-                            if (_isUnknownWeight && generalInfo != null) {
+                            if (_isUnknownWeight) {
                               generalInfo = {...generalInfo, "weight": null};
+                            } else {
+                              generalInfo = {
+                                ...generalInfo,
+                                "weight": _selectedWeight
+                              };
                             }
 
                             widget.getGeneralInfoAction(generalInfo);

@@ -20,7 +20,7 @@ class BuildPostImage extends StatefulWidget {
 
 class _BuildPostImageState extends State<BuildPostImage> {
   File? mediaFile;
-  Future selectFile() async {
+  Future _selectFile() async {
     try {
       final result = await FilePicker.platform.pickFiles(
           allowMultiple: false,
@@ -69,7 +69,7 @@ class _BuildPostImageState extends State<BuildPostImage> {
                     ),
                   ),
         onTap: () {
-          selectFile();
+          _selectFile();
         });
   }
 }

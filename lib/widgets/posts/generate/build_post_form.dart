@@ -62,10 +62,10 @@ class _BuildPostFormState extends State<BuildPostForm> {
     if (widget.post != null) {
       widget.controllerPetname.text = widget.post['petName'];
       widget.controllerDescription.text = widget.post['description'];
-      widget.controllerCountry.text = widget.post['description'];
-      widget.controllerDistrict.text = widget.post['description'];
-      widget.controllerProvince.text = widget.post['description'];
-      widget.controllerPrice.text = widget.post['description'];
+      widget.controllerCountry.text = widget.post?['address']['country'];
+      widget.controllerDistrict.text = widget.post?['address']['district'];
+      widget.controllerProvince.text = widget.post?['address']['province'];
+      widget.controllerPrice.text = widget.post['price'].toString();
     }
   }
 
