@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future _navigateToKeywordScreen(String keyword) async {
     // print('yo');
     var posts = await PostServices.getPostsByKeyword(keyword);
-    print(posts);
+    // print(posts);
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return KeywordPostScreen(posts: posts, keyword: keyword);
     }));
@@ -54,38 +54,46 @@ class _HomeScreenState extends State<HomeScreen> {
                 left: 10,
                 right: 10,
               ),
-              child: SingleChildScrollView(
-                  child: RefreshIndicator(
+              child: RefreshIndicator(
                 onRefresh: () async {
                   // print('refresh');
                   await _refreshPosts();
                   return Future.delayed(Duration(seconds: 1));
                 },
-                child: Column(children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomCard(
-                          name: 'Dogs',
-                          src: AppTheme.src.dogImage,
-                          action: () {
-                            _navigateToKeywordScreen('dog');
-                          }),
-                      CustomCard(
-                          name: 'Cats',
-                          src: AppTheme.src.catImage,
-                          action: () {
-                            _navigateToKeywordScreen('cat');
-                          }),
-                    ],
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: PostGridView(
-                          posts: posts, refreshPosts: _refreshPosts)),
-                ]),
-              )),
+                child: SingleChildScrollView(
+                  child: Column(children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CustomCard(
+                            name: 'Dogs',
+                            src: AppTheme.src.dogImage,
+                            action: () {
+                              _navigateToKeywordScreen('dog');
+                            }),
+                        CustomCard(
+                            name: 'Cats',
+                            src: AppTheme.src.catImage,
+                            action: () {
+                              _navigateToKeywordScreen('cat');
+                            }),
+                      ],
+                    ),
+                    // ListView.builder(
+                    //     physics: NeverScrollableScrollPhysics(),
+                    //     shrinkWrap: true,
+                    //     itemBuilder: ((context, index) => ListTile(
+                    //           title: Text("$index hello"),
+                    //         )),
+                    //     itemCount: 10),
+                    Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: PostGridView(
+                            posts: posts, refreshPosts: _refreshPosts)),
+                  ]),
+                ),
+              ),
             );
           }
 

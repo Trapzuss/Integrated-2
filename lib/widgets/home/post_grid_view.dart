@@ -24,6 +24,7 @@ class _PostGridViewState extends State<PostGridView> {
     final height = MediaQuery.of(context).size.height;
     return widget.posts.length != 0
         ? MasonryGridView.count(
+            physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             crossAxisCount: 2,
             itemCount: widget.posts.length,
