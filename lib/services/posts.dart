@@ -93,25 +93,33 @@ class PostServices {
 
   static Future<void> updatePost(context, post) async {
     var isLoading = BotToast.showLoading();
-    // var mediaFile = post['images'][0];
-    // UploadTask? task;
-    if (post == null) return isLoading();
-    // final fileName = '${basename(mediaFile!.path)}${DateTime.now()}';
-    // final destination = "files/$fileName";
+    var mediaFile = post?['images']?[0];
+    var fileName;
+    var destination;
+    UploadTask? task;
+    if (post == null) throw Error();
+    if (mediaFile?.runtimeType != String) {
+      fileName = '${basename(mediaFile!.path)}${DateTime.now()}';
+      destination = "files/$fileName";
+    }
+
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       dynamic user = prefs.get('user');
       var userMap = jsonDecode(user) as Map<String, dynamic>;
       // #upload file to storage
-      // task = FirebaseApi.uploadFile(destination, mediaFile!);
-      // if (task == null) return isLoading();
-      // final snapshot = await task.whenComplete(() {});
-      // final urlDownload = await snapshot.ref.getDownloadURL();
 
+      if (mediaFile?.runtimeType != String) {
+        task = FirebaseApi.uploadFile(destination, mediaFile!);
+        if (task == null) return isLoading();
+        final snapshot = await task.whenComplete(() {});
+        final urlDownload = await snapshot.ref.getDownloadURL();
+      }
+
+      // #check address
       var district = '';
       var province = '';
       var country = '';
-      // #check address
       if (post?['address']?['district'] == null ||
           post?['address']?['district'] == -1) {
         district = userMap?['address']?['district'];
@@ -126,7 +134,7 @@ class PostServices {
       var payload = {
         "userId": userMap['_id'],
         "petName": post['petName'],
-        "images": post['images'][0],
+        "images": post['images'],
         "address": {
           "district": district,
           "province": province,
@@ -142,7 +150,6 @@ class PostServices {
 
       var response =
           await Dio().patch('${api_uri}/posts/${post['_id']}', data: payload);
-      // debugPrint(response.toString());
 
       BotToast.showNotification(
         crossPage: true,
@@ -160,11 +167,11 @@ class PostServices {
           style: TextStyle(color: Colors.white),
         ),
       );
-      Navigator.popUntil(context, (route) => route.isFirst);
-      //  Navigator.pop(context);
+      Navigator.pop(context, true);
     } catch (e) {
       debugPrint(e.toString());
       // await FirebaseApi.deleteTask(destination);
+      isLoading();
     } finally {
       isLoading();
     }
@@ -190,7 +197,7 @@ class PostServices {
           style: TextStyle(color: Colors.white),
         ),
       );
-      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pop(context);
       return response.data;
     } catch (e) {
       debugPrint(e.toString());
@@ -221,6 +228,16 @@ class PostServices {
   static Future getPostsByUserId(String userId) async {
     try {
       var response = await Dio().get('${api_uri}/posts?userId=$userId');
+      // debugPrint(response.toString());
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future getPostsByKeyword(String keyword) async {
+    try {
+      var response = await Dio().get('${api_uri}/posts?keyword=$keyword');
       // debugPrint(response.toString());
       return response.data;
     } catch (e) {
