@@ -12,6 +12,24 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var sexIcons = {
+      'female': Icon(
+        Icons.female,
+        color: Colors.pink[200],
+        size: 16,
+      ),
+      'male': Icon(
+        Icons.male,
+        color: Colors.blue[300],
+        size: 16,
+      ),
+      'unknown': Icon(
+        Icons.question_mark,
+        color: AppTheme.colors.subInfoFontColor,
+        size: 16,
+      )
+    };
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return ClipRRect(
@@ -42,18 +60,26 @@ class PostCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          post['petName'],
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.colors.infoFontColor),
+                        Flexible(
+                          flex: 3,
+                          child: Container(
+                            child: Text(
+                              post['petName'],
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.colors.infoFontColor),
+                            ),
+                          ),
                         ),
-                        Text(
-                          post['price'] == 0
-                              ? "Free"
-                              : post['price'].toString(),
-                          style: AppTheme.style.primaryFontStyle,
+                        Flexible(
+                          child: Text(
+                            post['price'] == 0
+                                ? "Free"
+                                : "${post['price'].toString()} Baht",
+                            maxLines: 2,
+                            style: AppTheme.style.primaryFontStyle,
+                          ),
                         )
                       ],
                     ),
@@ -85,25 +111,49 @@ class PostCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        height: 28,
-                        margin: EdgeInsets.only(right: 4),
-                        child: Chip(
-                            backgroundColor: AppTheme.colors.primaryShade,
-                            label: Text(
-                              ExtensionServices.capitalize(
-                                  post['sex'].toString()),
-                              style: AppTheme.style.secondaryFontStyle,
-                            )),
-                      ),
+                          height: 28,
+                          margin: EdgeInsets.only(right: 4),
+                          child: Row(
+                            children: [
+                              sexIcons['${post['sex'].toString()}'] as Widget,
+                              Text(
+                                ExtensionServices.capitalize(
+                                    post['sex'].toString()),
+                                style: AppTheme.style.secondaryFontStyle,
+                              ),
+                            ],
+                          )
+                          // Chip(
+                          //     backgroundColor: AppTheme.colors.primaryShade,
+                          //     label: Text(
+                          //       ExtensionServices.capitalize(
+                          //           post['sex'].toString()),
+                          //       style: AppTheme.style.secondaryFontStyle,
+                          //     )
+                          //     ),
+                          ),
                       Container(
-                        height: 28,
-                        child: Chip(
-                            backgroundColor: AppTheme.colors.primaryShade,
-                            label: Text(
-                              getAgeComputed(),
-                              style: AppTheme.style.secondaryFontStyle,
-                            )),
-                      ),
+                          height: 28,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.cake,
+                                color: AppTheme.colors.subInfoFontColor,
+                                size: 16,
+                              ),
+                              Text(
+                                getAgeComputed(),
+                                style: AppTheme.style.secondaryFontStyle,
+                              ),
+                            ],
+                          )
+                          // Chip(
+                          //     backgroundColor: AppTheme.colors.primaryShade,
+                          //     label: Text(
+                          //       getAgeComputed(),
+                          //       style: AppTheme.style.secondaryFontStyle,
+                          //     )),
+                          ),
                     ],
                   ),
                   Row(
