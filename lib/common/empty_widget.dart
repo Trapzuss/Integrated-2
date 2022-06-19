@@ -209,3 +209,16 @@ class EmptyImageTypeCreatePost extends StatelessWidget {
     );
   }
 }
+
+class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(
+        color: AppTheme.colors.primary,
+      ),
+    );
+  }
+}
