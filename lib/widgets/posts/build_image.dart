@@ -76,8 +76,8 @@ class BuildImage extends StatelessWidget {
                                 builder: (context) => GeneratePostScreen(
                                     action: 'edit', post: post)));
                         // TODO refresh
-                        print('buildimage');
-                        print(_refresh);
+                        // print('buildimage');
+                        // print(_refresh);
                         if (_refresh != null && _refresh) {
                           Navigator.pop(context, true);
                         }

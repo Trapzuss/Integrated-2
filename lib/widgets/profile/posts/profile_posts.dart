@@ -81,13 +81,17 @@ class _ProfilePostGridViewState extends State<ProfilePostGridView> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           child: PostCard(post: posts[index]),
-                          onTap: () {
-                            Navigator.push(context,
+                          onTap: () async {
+                            bool? _refresh = await Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return PostScreen(
                                 post: posts[index],
                               );
                             }));
+                            if (_refresh != null && _refresh == true) {
+                              PostServices.getPostsByUserId(_user['_id']);
+                              setState(() {});
+                            }
                           },
                         );
                       },
