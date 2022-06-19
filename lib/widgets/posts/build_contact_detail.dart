@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pet_integrated/screens/profile/guest/guest_profile_screen.dart';
+import 'package:pet_integrated/screens/profile/profile_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';
 
 class BuildContactDetail extends StatelessWidget {
@@ -15,43 +17,50 @@ class BuildContactDetail extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: AssetImage('assets/images/Dogpaw-pana.png'),
-                backgroundColor: Colors.white,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width / 2.5,
-                margin: EdgeInsets.only(left: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      child: Text(
-                        "${post['user'][0]['firstName']} ${post['user'][0]['lastName']}",
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.colors.infoFontColor),
-                      ),
-                    ),
-                    Text(
-                      "Pet's owner",
-                      overflow: TextOverflow.fade,
-                      softWrap: true,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          overflow: TextOverflow.fade,
-                          color: AppTheme.colors.subInfoFontColor,
-                          fontSize: 12),
-                    ),
-                  ],
+          GestureDetector(
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/Dogpaw-pana.png'),
+                  backgroundColor: Colors.white,
                 ),
-              ),
-            ],
+                Container(
+                  width: MediaQuery.of(context).size.width / 2.5,
+                  margin: EdgeInsets.only(left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          "${post['user'][0]['firstName']} ${post['user'][0]['lastName']}",
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.colors.infoFontColor),
+                        ),
+                      ),
+                      Text(
+                        "Pet's owner",
+                        overflow: TextOverflow.fade,
+                        softWrap: true,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            overflow: TextOverflow.fade,
+                            color: AppTheme.colors.subInfoFontColor,
+                            fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return GuestProfileScreen(userId: post['userId']);
+              }));
+            },
           ),
           Container(
             child: Row(

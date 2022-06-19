@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   bool _show = false;
   void _navigateToHome() async {
-    await Future.delayed(Duration(milliseconds: 5000), () {
+    await Future.delayed(Duration(milliseconds: 3000), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => DefaultLayout()),

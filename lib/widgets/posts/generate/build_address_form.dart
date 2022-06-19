@@ -25,6 +25,46 @@ class BuildAddressForm extends StatefulWidget {
 
 class _BuildAddressFormState extends State<BuildAddressForm> {
   bool _useMyLocation = true;
+
+  @override
+  void initState() {
+    _initialPostData();
+    super.initState();
+  }
+
+  void _initialPostData() {
+    if (widget.post != null) {
+      if (widget.controllerCountry.text.toLowerCase() ==
+              widget.post?['address']?['country'].toString().toLowerCase() &&
+          widget.controllerDistrict.text.toLowerCase() ==
+              widget.post?['address']?['district'].toString().toLowerCase() &&
+          widget.controllerProvince.text.toLowerCase() ==
+              widget.post?['address']?['province'].toString().toLowerCase()) {
+        _useMyLocation = true;
+      } else {
+        _useMyLocation = false;
+      }
+    }
+  }
+
+  String? _districtRules(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill out the district';
+    }
+  }
+
+  String? _provinceRules(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill out the province';
+    }
+  }
+
+  String? _countryRules(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill out the country';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,19 +123,21 @@ class _BuildAddressFormState extends State<BuildAddressForm> {
                               child: Container(
                             margin: EdgeInsets.only(right: 5),
                             child: TextFormField(
-                                controller: widget.controllerDistrict,
-                                decoration: AppTheme.style
-                                    .textFieldStyle(hinttext: 'District'),
-                                keyboardType: TextInputType.number),
+                              validator: _useMyLocation ? null : _districtRules,
+                              controller: widget.controllerDistrict,
+                              decoration: AppTheme.style
+                                  .textFieldStyle(hinttext: 'District'),
+                            ),
                           )),
                           Flexible(
                               child: Container(
                             margin: EdgeInsets.only(right: 5),
                             child: TextFormField(
-                                controller: widget.controllerProvince,
-                                decoration: AppTheme.style
-                                    .textFieldStyle(hinttext: 'Province'),
-                                keyboardType: TextInputType.number),
+                              validator: _useMyLocation ? null : _provinceRules,
+                              controller: widget.controllerProvince,
+                              decoration: AppTheme.style
+                                  .textFieldStyle(hinttext: 'Province'),
+                            ),
                           )),
                           Flexible(
                             child: Container(
@@ -114,11 +156,12 @@ class _BuildAddressFormState extends State<BuildAddressForm> {
                                       child: Container(
                                     margin: EdgeInsets.only(right: 5),
                                     child: TextFormField(
-                                        controller: widget.controllerCountry,
-                                        decoration: AppTheme.style
-                                            .textFieldStyle(
-                                                hinttext: 'Country'),
-                                        keyboardType: TextInputType.number),
+                                      validator:
+                                          _useMyLocation ? null : _countryRules,
+                                      controller: widget.controllerCountry,
+                                      decoration: AppTheme.style
+                                          .textFieldStyle(hinttext: 'Country'),
+                                    ),
                                   )),
                                 ],
                               ),
@@ -148,6 +191,7 @@ class _BuildAddressFormState extends State<BuildAddressForm> {
       };
       widget.getAddressInfoAction(payload);
     } else {
+      print(_useMyLocation);
       var payload = {"district": -1, "province": -1, "country": -1};
       widget.getAddressInfoAction(payload);
     }

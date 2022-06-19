@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pet_integrated/common/empty_widget.dart';
+import 'package:pet_integrated/screens/auth/login_screen.dart';
 import 'package:pet_integrated/screens/chat/chat_list_screen.dart';
 import 'package:pet_integrated/screens/chat/chat_screen.dart';
 import 'package:pet_integrated/screens/home_screen.dart';
 import 'package:pet_integrated/screens/profile/profile_edit_screen.dart';
+import 'package:pet_integrated/services/authentication.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
@@ -20,6 +23,8 @@ class _DefaultLayoutState extends State<DefaultLayout> {
   int _state = 0;
   String _appBarTitle = 'AdoptHome';
   bool _isSearching = false;
+  bool _refresh = false;
+  bool _login = false;
   String _searchValue = '';
   final _BtmNvgtItems = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
@@ -38,16 +43,25 @@ class _DefaultLayoutState extends State<DefaultLayout> {
 
   @override
   void initState() {
-    super.initState();
+    _checkAuthenState();
     _isSearching = false;
     pageController = PageController();
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     pageController.dispose();
     // _controllerSearch.dispose();
+    super.dispose();
+  }
+
+  _checkAuthenState() async {
+    var auth = await AuthenticationServices.checkAuthenState();
+    // print(auth);
+    setState(() {
+      _login = auth;
+    });
   }
 
   _onNavigationTapped(int index) {
@@ -64,6 +78,16 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     pageController.jumpToPage(index);
   }
 
+  Future _refreshProfile() async {
+    await AuthenticationServices.getProfile();
+    setState(() {
+      _refresh = true;
+      Future.delayed(Duration(milliseconds: 3000));
+      _refresh = false;
+    });
+    // print('refresh profile');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +99,11 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
         body: PageView(
           physics: NeverScrollableScrollPhysics(),
-          children: [HomeScreen(), ChatListScreen(), ProfileScreen()],
+          children: [
+            HomeScreen(),
+            ChatListScreen(),
+            !_refresh ? ProfileScreen() : LoadingWidget()
+          ],
           controller: pageController,
         ),
         bottomNavigationBar: Container(
@@ -184,29 +212,52 @@ class _DefaultLayoutState extends State<DefaultLayout> {
               Text(_appBarTitle,
                   style: TextStyle(color: AppTheme.colors.primary)),
               Container(
-                margin: EdgeInsets.only(left: 4),
-                child: Icon(
-                  Icons.person_pin,
-                  color: AppTheme.colors.primary,
-                ),
-              ),
+                  margin: EdgeInsets.only(left: 4),
+                  child: CircleAvatar(
+                    radius: 14,
+                    backgroundColor: AppTheme.colors.primary,
+                    child: Icon(
+                      Icons.person,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  )),
             ],
           ),
-          SizedBox(
-            height: 30,
-            width: 30,
-            child: IconButton(
-              padding: EdgeInsets.all(0),
-              splashRadius: 15,
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfileEditScreen()));
-              },
-            ),
-          ),
+          _login
+              ? SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: IconButton(
+                    color: Colors.white,
+                    splashRadius: 15,
+                    icon: Icon(
+                      Icons.logout,
+                      color: Colors.red,
+                    ),
+                    onPressed: () async {
+                      AuthenticationServices.logout(context);
+                    },
+                  ),
+                )
+              : SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: IconButton(
+                    color: Colors.white,
+                    splashRadius: 15,
+                    icon: Icon(
+                      Icons.login,
+                      color: AppTheme.colors.primary,
+                    ),
+                    onPressed: () async {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    },
+                  ),
+                ),
         ],
       );
     }

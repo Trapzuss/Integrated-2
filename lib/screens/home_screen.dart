@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_integrated/common/empty_widget.dart';
+import 'package:pet_integrated/screens/posts/keyword_post_screen.dart';
 import 'package:pet_integrated/screens/posts/post_screen.dart';
 import 'package:pet_integrated/services/posts.dart';
 import 'package:pet_integrated/utils/theme.dart';
@@ -15,49 +16,88 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Future _refreshPosts() async {
+    await PostServices.getPosts();
+    setState(() {});
+    // print('refresh success');
+  }
+
+  Future _navigateToKeywordScreen(String keyword) async {
+    // print('yo');
+    var posts = await PostServices.getPostsByKeyword(keyword);
+    // print(posts);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return KeywordPostScreen(posts: posts, keyword: keyword);
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: PostServices.getPosts(),
         builder: ((context, snapshot) {
-          if (snapshot.hasError) {
-            return EmptyPostsTypeError(error: snapshot.error.toString());
-          } else if (snapshot.hasData) {
-            final List posts = snapshot.data as List;
-            // if (posts.isEmpty) {
-            //   return EmptyPostsTypeEmpty();
-            // }
-            return Container(
-              margin: EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ),
-              child: SingleChildScrollView(
-                child: Column(children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomCard(
-                        name: 'Dogs',
-                      ),
-                      CustomCard(
-                        name: 'Cats',
-                      ),
-                    ],
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: PostGridView(posts: posts))
-                ]),
-              ),
-            );
-          } else {
+          if (snapshot.connectionState != ConnectionState.done) {
             return Center(
                 child: CircularProgressIndicator(
               color: AppTheme.colors.primary,
             ));
           }
+          if (snapshot.hasError) {
+            return EmptyPostsTypeError(error: snapshot.error.toString());
+          }
+
+          if (snapshot.hasData) {
+            final List posts = snapshot.data as List;
+
+            return Container(
+              margin: EdgeInsets.only(
+                left: 10,
+                right: 10,
+              ),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  // print('refresh');
+                  await _refreshPosts();
+                  return Future.delayed(Duration(seconds: 1));
+                },
+                child: SingleChildScrollView(
+                  child: Column(children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CustomCard(
+                            name: 'Dogs',
+                            src: AppTheme.src.dogImage,
+                            action: () {
+                              _navigateToKeywordScreen('dog');
+                            }),
+                        CustomCard(
+                            name: 'Cats',
+                            src: AppTheme.src.catImage,
+                            action: () {
+                              _navigateToKeywordScreen('cat');
+                            }),
+                      ],
+                    ),
+                    // ListView.builder(
+                    //     physics: NeverScrollableScrollPhysics(),
+                    //     shrinkWrap: true,
+                    //     itemBuilder: ((context, index) => ListTile(
+                    //           title: Text("$index hello"),
+                    //         )),
+                    //     itemCount: 10),
+                    Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: PostGridView(
+                            posts: posts, refreshPosts: _refreshPosts)),
+                  ]),
+                ),
+              ),
+            );
+          }
+
+          return EmptyPostsTypeEmpty();
         }));
   }
 }

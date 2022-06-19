@@ -18,9 +18,9 @@ class BuildPostForm extends StatefulWidget {
   // var controllerTitle = TextEditingController();
   var controllerDescription = TextEditingController();
   var controllerPetname = TextEditingController();
-  var controllerSex = TextEditingController();
-  var controllerAge = TextEditingController();
-  var controllerWeight = TextEditingController();
+  // var controllerSex = TextEditingController();
+  // var controllerAge = TextEditingController();
+  // var controllerWeight = TextEditingController();
   var controllerDistrict = TextEditingController();
   var controllerProvince = TextEditingController();
   var controllerCountry = TextEditingController();
@@ -37,9 +37,9 @@ class BuildPostForm extends StatefulWidget {
     // required this.controllerTitle,
     required this.controllerDescription,
     required this.controllerPetname,
-    required this.controllerSex,
-    required this.controllerAge,
-    required this.controllerWeight,
+    // required this.controllerSex,
+    // required this.controllerAge,
+    // required this.controllerWeight,
     required this.controllerDistrict,
     required this.controllerProvince,
     required this.controllerCountry,
@@ -51,6 +51,24 @@ class BuildPostForm extends StatefulWidget {
 }
 
 class _BuildPostFormState extends State<BuildPostForm> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    _initialPostData();
+    super.initState();
+  }
+
+  void _initialPostData() {
+    if (widget.post != null) {
+      widget.controllerPetname.text = widget.post['petName'];
+      widget.controllerDescription.text = widget.post['description'];
+      widget.controllerCountry.text = widget.post?['address']['country'];
+      widget.controllerDistrict.text = widget.post?['address']['district'];
+      widget.controllerProvince.text = widget.post?['address']['province'];
+      widget.controllerPrice.text = widget.post['price'].toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,12 +84,12 @@ class _BuildPostFormState extends State<BuildPostForm> {
               BuildGeneralForm(
                 post: widget.post,
                 scaffoldKey: widget.scaffoldKey,
-                controllerAge: widget.controllerAge,
+                // controllerAge: widget.controllerAge,
                 controllerDescription: widget.controllerDescription,
                 controllerPetname: widget.controllerPetname,
-                controllerSex: widget.controllerSex,
+                // controllerSex: widget.controllerSex,
                 // controllerTitle: widget.controllerTitle,
-                controllerWeight: widget.controllerWeight,
+                // controllerWeight: widget.controllerWeight,
                 getGeneralInfoAction: widget.getGeneralInfoAction,
               ),
               BuildAddressForm(

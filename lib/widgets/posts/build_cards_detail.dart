@@ -21,12 +21,27 @@ class BuildCardDetail extends StatelessWidget {
           _customCard(
             context,
             'Age',
-            "${post['age']['year'].toString()} Years\n${post['age']['month'].toString()} Months",
+            getAgeComputed(),
           ),
-          _customCard(context, 'Weight', "${post['weight'].toString()} Kgs"),
+          _customCard(context, 'Weight', getWeightComputed()),
         ],
       ),
     );
+  }
+
+  getAgeComputed() {
+    if ("${post?['age']?['year']}" == null ||
+        "${post?['age']?['year']}" == "null") {
+      return 'Unknown';
+    }
+    return "${post?['age']?['year'].toString()} Years\n${post?['age']?['month'].toString()} Months";
+  }
+
+  getWeightComputed() {
+    if ("${post?['weight']}" == null || "${post?['weight']}" == "null") {
+      return 'Unknown';
+    }
+    return "${post['weight'].toString()} Kgs";
   }
 }
 

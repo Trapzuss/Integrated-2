@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pet_integrated/common/empty_widget.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:pet_integrated/utils/utils.dart';
 
@@ -11,6 +12,24 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var sexIcons = {
+      'female': Icon(
+        Icons.female,
+        color: Colors.pink[200],
+        size: 16,
+      ),
+      'male': Icon(
+        Icons.male,
+        color: Colors.blue[300],
+        size: 16,
+      ),
+      'unknown': Icon(
+        Icons.question_mark,
+        color: AppTheme.colors.subInfoFontColor,
+        size: 16,
+      )
+    };
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return ClipRRect(
@@ -29,28 +48,38 @@ class PostCard extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 6),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: Image.network(
-                          post['images'][0].toString(),
-                          fit: BoxFit.cover,
-                        ),
+                        child: post?['images']?[0] == null
+                            ? EmptyImage()
+                            : Image.network(
+                                post['images'][0].toString(),
+                                fit: BoxFit.cover,
+                              ),
                       )),
                   Container(
                     margin: EdgeInsets.only(bottom: 3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          post['petName'],
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.colors.infoFontColor),
+                        Flexible(
+                          flex: 3,
+                          child: Container(
+                            child: Text(
+                              post['petName'],
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.colors.infoFontColor),
+                            ),
+                          ),
                         ),
-                        Text(
-                          post['price'] == 0
-                              ? "Free"
-                              : post['price'].toString(),
-                          style: AppTheme.style.primaryFontStyle,
+                        Flexible(
+                          child: Text(
+                            post['price'] == 0
+                                ? "Free"
+                                : "${post['price'].toString()} Baht",
+                            maxLines: 2,
+                            style: AppTheme.style.primaryFontStyle,
+                          ),
                         )
                       ],
                     ),
@@ -82,25 +111,49 @@ class PostCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        height: 28,
-                        margin: EdgeInsets.only(right: 4),
-                        child: Chip(
-                            backgroundColor: AppTheme.colors.primaryShade,
-                            label: Text(
-                              ExtensionServices.capitalize(
-                                  post['sex'].toString()),
-                              style: AppTheme.style.secondaryFontStyle,
-                            )),
-                      ),
+                          height: 28,
+                          margin: EdgeInsets.only(right: 4),
+                          child: Row(
+                            children: [
+                              sexIcons['${post['sex'].toString()}'] as Widget,
+                              Text(
+                                ExtensionServices.capitalize(
+                                    post['sex'].toString()),
+                                style: AppTheme.style.secondaryFontStyle,
+                              ),
+                            ],
+                          )
+                          // Chip(
+                          //     backgroundColor: AppTheme.colors.primaryShade,
+                          //     label: Text(
+                          //       ExtensionServices.capitalize(
+                          //           post['sex'].toString()),
+                          //       style: AppTheme.style.secondaryFontStyle,
+                          //     )
+                          //     ),
+                          ),
                       Container(
-                        height: 28,
-                        child: Chip(
-                            backgroundColor: AppTheme.colors.primaryShade,
-                            label: Text(
-                              "${post['age']['year'].toString()} yrs,${post['age']['month'].toString()} mo",
-                              style: AppTheme.style.secondaryFontStyle,
-                            )),
-                      ),
+                          height: 28,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.cake,
+                                color: AppTheme.colors.subInfoFontColor,
+                                size: 16,
+                              ),
+                              Text(
+                                getAgeComputed(),
+                                style: AppTheme.style.secondaryFontStyle,
+                              ),
+                            ],
+                          )
+                          // Chip(
+                          //     backgroundColor: AppTheme.colors.primaryShade,
+                          //     label: Text(
+                          //       getAgeComputed(),
+                          //       style: AppTheme.style.secondaryFontStyle,
+                          //     )),
+                          ),
                     ],
                   ),
                   Row(
@@ -140,5 +193,13 @@ class PostCard extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  getAgeComputed() {
+    if ("${post?['age']?['year']}" == null ||
+        "${post?['age']?['year']}" == "null") {
+      return 'Unknown';
+    }
+    return "${post?['age']?['year'].toString()} yrs,${post?['age']?['month'].toString()} mo";
   }
 }

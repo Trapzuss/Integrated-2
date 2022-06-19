@@ -17,6 +17,7 @@ class _ProfilePostScreesnState extends State<ProfilePostsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('My Posts'),
         backgroundColor: AppTheme.colors.notWhite,
         elevation: 0,
       ),

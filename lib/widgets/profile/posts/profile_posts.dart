@@ -58,14 +58,19 @@ class _ProfilePostGridViewState extends State<ProfilePostGridView> {
             : FutureBuilder(
                 future: PostServices.getPostsByUserId(_user['_id']),
                 builder: ((context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return LoadingWidget();
+                  }
                   if (snapshot.hasError) {
                     return EmptyPostsTypeError(
                         error: snapshot.error.toString());
-                  } else if (snapshot.hasData) {
-                    final List posts = snapshot.data as List;
-                    // if (posts.isEmpty) {
-                    //   return EmptyPostsTypeEmpty();
-                    // \}
+                  }
+                  if (snapshot.hasData) {
+                    final List? posts = snapshot.data as List;
+
+                    if (posts!.isEmpty) {
+                      return EmptyPostsTypeEmpty();
+                    }
                     return MasonryGridView.count(
                       shrinkWrap: true,
                       crossAxisCount: 2,
@@ -76,23 +81,24 @@ class _ProfilePostGridViewState extends State<ProfilePostGridView> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           child: PostCard(post: posts[index]),
-                          onTap: () {
-                            Navigator.push(context,
+                          onTap: () async {
+                            bool? _refresh = await Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return PostScreen(
                                 post: posts[index],
                               );
                             }));
+                            if (_refresh != null && _refresh == true) {
+                              PostServices.getPostsByUserId(_user['_id']);
+                              setState(() {});
+                            }
                           },
                         );
                       },
                     );
-                  } else {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      color: AppTheme.colors.primary,
-                    ));
                   }
+
+                  return EmptyPostsTypeEmpty();
                 })));
   }
 }
