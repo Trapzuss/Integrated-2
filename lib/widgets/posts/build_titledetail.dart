@@ -12,45 +12,58 @@ class BuildTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(right: 10, left: 10, top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 5),
-                child: Text(
-                  post['petName'],
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.colors.infoFontColor),
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      child: Text(
+                        post['petName'],
+                        // "${post['address']['district']} ${post['address']['province']}, ${post['address']['country']}",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.colors.infoFontColor),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Row(
-                children: [
-                  Icon(Icons.location_on_rounded, color: Colors.red[300]),
-                  Text(
-                    "${post['address']['district']} ${post['address']['province']}, ${post['address']['country']}",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.colors.subInfoFontColor),
-                  ),
-                ],
+              Text(
+                post['price'] == 0
+                    ? "Free"
+                    : "${post['price'].toString()} Baht",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.colors.infoFontColor),
               )
             ],
           ),
-          Text(
-            post['price'] == 0 ? "Free" : post['price'].toString(),
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.colors.infoFontColor),
-          )
+          Row(
+            children: [
+              Icon(Icons.location_on_rounded, color: Colors.red[300]),
+              Flexible(
+                child: Text(
+                  "${post['address']['district']} ${post['address']['province']}, ${post['address']['country']}",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.colors.subInfoFontColor),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

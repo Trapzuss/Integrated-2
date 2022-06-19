@@ -70,11 +70,17 @@ class BuildImage extends StatelessWidget {
                   child: PopupMenuButton<String>(
                     onSelected: (String value) async {
                       if (value == 'Edit') {
-                        Navigator.push(
+                        bool? _refresh = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => GeneratePostScreen(
                                     action: 'edit', post: post)));
+                        // TODO refresh
+                        print('buildimage');
+                        print(_refresh);
+                        if (_refresh != null && _refresh) {
+                          Navigator.pop(context, true);
+                        }
                       } else if (value == 'Delete') {
                         await PostServices.deletePost(context, post['_id']);
                       }
