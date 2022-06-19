@@ -82,6 +82,9 @@ class AppStyle {
 }
 
 class AppSrc {
+  final String dogImage = 'assets/images/shiba.png';
+  final String catImage = 'assets/images/cat.png';
+  final String sharkImage = 'assets/images/shark.png';
   final String profileImage =
       'https://i.pinimg.com/564x/a6/a5/9c/a6a59cf39b63d214cb7feab97b8c9a59.jpg';
   final empty =
