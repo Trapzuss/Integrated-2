@@ -156,31 +156,4 @@ class AuthenticationServices {
       log(e.toString());
     }
   }
-
-  static Future checkAuthenState() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var user = prefs.get('user');
-      if (user == null) {
-        return false;
-      }
-      return true;
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  static Future getProfileFromState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var access_token = prefs.get('access_token');
-    dynamic user = prefs.get('user');
-    Map<String, dynamic> userMap = {};
-    if (user != null) {
-      // print(user);
-    }
-    if (access_token != null) {
-      userMap = jsonDecode(user) as Map<String, dynamic>;
-      return userMap;
-    }
-  }
 }
