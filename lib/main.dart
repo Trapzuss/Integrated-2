@@ -63,7 +63,6 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch()
                 .copyWith(primary: AppTheme.colors.primary),
             appBarTheme: AppBarTheme(foregroundColor: AppTheme.colors.primary)),
-          
         home: FutureBuilder(
             future: _initFirebase(),
             builder: (context, snapshot) {
@@ -71,7 +70,8 @@ class MyApp extends StatelessWidget {
                 return Text(snapshot.error.toString());
               }
               if (snapshot.connectionState == ConnectionState.done) {
-                return SplashScreen();
+                return DefaultLayout();
+                // SplashScreen();
               }
               return Center(
                   child: CircularProgressIndicator(
@@ -79,6 +79,6 @@ class MyApp extends StatelessWidget {
               ));
             }));
 
-        // home: SplashScreen()
+    // home: SplashScreen()
   }
 }

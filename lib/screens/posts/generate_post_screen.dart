@@ -49,6 +49,8 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
     setState(() {
       generalInfo = data;
     });
+    // print(data);
+    print(generalInfo);
   }
 
   void getAddressInfo(data) {
@@ -61,6 +63,7 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
     setState(() {
       costInfo = data;
     });
+    print(costInfo);
   }
 
   Future _submitForm() async {
@@ -118,13 +121,13 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
             _mediaFile != null ? _mediaFile : widget.post?['images']?[0]
           ],
           "address": {
-            "district": addressInfo?['district'] == null
+            "district": addressInfo?['district'] != -1
                 ? _controllerDistrict.text
                 : addressInfo['district'],
-            "province": addressInfo?['province'] == null
+            "province": addressInfo?['province'] != -1
                 ? _controllerProvince.text
                 : addressInfo['province'],
-            "country": addressInfo?['country'] == null
+            "country": addressInfo?['country'] != -1
                 ? _controllerCountry.text
                 : addressInfo['country']
           },
@@ -133,38 +136,38 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
               ? widget.post['sex']
               : generalInfo?['sex'],
           "age": generalInfo?['age'] == null
-              ? widget.post['sex']
+              ? widget.post['age']
               : generalInfo?['age'],
           "weight": generalInfo?['weight'] == null
               ? widget.post['weight']
               : generalInfo?['weight'],
-          "price": costInfo?['price'] != null
-              ? costInfo['price']
+          "price": costInfo?['price'] != 0
+              ? _controllerPrice.text
               : widget.post['price'],
         };
-        print(payload);
-        // final isValid = _formKey.currentState!.validate();
-        // if (isValid) {
-        //   PostServices.updatePost(context, payload);
-        // } else {
-        //   BotToast.showNotification(
-        //     crossPage: true,
-        //     backgroundColor: Colors.amber[400],
-        //     leading: (cancel) => SizedBox.fromSize(
-        //         size: const Size(40, 40),
-        //         child: IconButton(
-        //           icon: Icon(Icons.delete, color: Colors.white),
-        //           onPressed: cancel,
-        //         )),
-        //     duration: Duration(seconds: 3),
-        //     title: (_) => const Text(
-        //       'Please fill out all required fields.',
-        //       style: TextStyle(color: Colors.white),
-        //     ),
-        //     // subtitle: (_) => Text('Please fill out all required fields.'),
-        //   );
-        //   print(_formKey.currentContext);
-        // }
+        // print(payload);
+        final isValid = _formKey.currentState!.validate();
+        if (isValid) {
+          PostServices.updatePost(context, payload);
+        } else {
+          BotToast.showNotification(
+            crossPage: true,
+            backgroundColor: Colors.amber[400],
+            leading: (cancel) => SizedBox.fromSize(
+                size: const Size(40, 40),
+                child: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.white),
+                  onPressed: cancel,
+                )),
+            duration: Duration(seconds: 3),
+            title: (_) => const Text(
+              'Please fill out all required fields.',
+              style: TextStyle(color: Colors.white),
+            ),
+            // subtitle: (_) => Text('Please fill out all required fields.'),
+          );
+          print(_formKey.currentContext);
+        }
       }
     } catch (e) {
       debugPrint(e.toString());
