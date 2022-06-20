@@ -77,24 +77,27 @@ class _loginFormState extends State<loginForm> {
                 ))),
               ),
             ),
-            Container(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => DefaultLayout()));
-                },
-                icon: Icon(Icons.person),
-                label: Text('Continue as guest'),
-                style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                        AppTheme.colors.primary),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(color: AppTheme.colors.primary)))),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Container(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => DefaultLayout()));
+                  },
+                  icon: Icon(Icons.person),
+                  label: Text('Continue as guest'),
+                  style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          AppTheme.colors.primary),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: AppTheme.colors.primary)))),
+                ),
               ),
             ),
           ],
