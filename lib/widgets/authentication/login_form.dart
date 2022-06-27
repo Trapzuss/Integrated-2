@@ -25,6 +25,11 @@ class _loginFormState extends State<loginForm> {
     if (value == null || value.isEmpty) {
       return 'Email is required';
     }
+    if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(value)) {
+      return 'Email is invalid form';
+    }
   }
 
   String? _passwordRules(String? value) {
@@ -83,8 +88,10 @@ class _loginFormState extends State<loginForm> {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => DefaultLayout()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DefaultLayout()));
                   },
                   icon: Icon(Icons.person),
                   label: Text('Continue as guest'),
@@ -96,7 +103,8 @@ class _loginFormState extends State<loginForm> {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(color: AppTheme.colors.primary)))),
+                              side:
+                                  BorderSide(color: AppTheme.colors.primary)))),
                 ),
               ),
             ),

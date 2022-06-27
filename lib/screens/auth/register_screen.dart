@@ -170,6 +170,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white, //change your color here
+        ),
         title: Text(
           'Register',
           style: TextStyle(color: AppTheme.colors.notWhite),
