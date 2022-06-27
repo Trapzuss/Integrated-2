@@ -66,7 +66,7 @@ class EmptyPostsTypeSomethingWrong extends StatelessWidget {
     } else {
       msg = "No post found. come back later.";
     }
-    print(msg);
+    // print(msg);
     return Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         // Text('No data found here.'),
@@ -94,11 +94,14 @@ class EmptyPostsTypeSomethingWrong extends StatelessWidget {
 }
 
 class EmptyPostsTypeEmpty extends StatelessWidget {
-  const EmptyPostsTypeEmpty({Key? key}) : super(key: key);
+  EmptyPostsTypeEmpty({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var rng = Random();
+
     String path;
     if (rng.nextInt(100) > 49) {
       path = 'assets/images/Fishbowl.png';
@@ -133,6 +136,43 @@ class EmptyPostsTypeEmpty extends StatelessWidget {
       ]),
     );
   }
+}
+
+Widget emptyChatRooms({text}) {
+  var rng = Random();
+  String path;
+  if (rng.nextInt(100) > 49) {
+    path = 'assets/images/Fishbowl.png';
+  } else {
+    path = 'assets/images/Catastronaut-cuate.png';
+  }
+
+  return Center(
+    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      // Text('No data found here.'),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Image.asset(
+          path,
+          alignment: Alignment.center,
+          height: 200,
+        ),
+      ),
+      Text('Oops!',
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.colors.darkFontColor)),
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 4),
+        child:
+            Text(text, style: TextStyle(color: AppTheme.colors.darkFontColor)),
+      ),
+      // gradientButton(
+      //   text: 'New post',
+      // )
+    ]),
+  );
 }
 
 class EmptyCollection extends StatelessWidget {
@@ -221,4 +261,22 @@ class LoadingWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget loadingWidgetWithText({text}) {
+  return Center(
+      child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      CircularProgressIndicator(
+        color: AppTheme.colors.notWhite,
+      ),
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        child:
+            Text(text, style: TextStyle(color: AppTheme.colors.darkFontColor)),
+      ),
+    ],
+  ));
 }
