@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pet_integrated/services/authentication.dart';
 import 'package:pet_integrated/services/posts.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:pet_integrated/widgets/home/post_grid_view.dart';
@@ -18,7 +19,7 @@ class KeywordPostScreen extends StatefulWidget {
 
 class _KeywordPostScreenState extends State<KeywordPostScreen> {
   Future _refreshPosts() async {
-    await PostServices.getPosts();
+    await PostServices.getPosts(AuthenticationServices.getUserId().toString());
     setState(() {});
     // print('refresh success');
   }
