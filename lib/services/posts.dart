@@ -197,7 +197,7 @@ class PostServices {
           style: TextStyle(color: Colors.white),
         ),
       );
-      Navigator.pop(context);
+      Navigator.pop(context, true);
       return response.data;
     } catch (e) {
       debugPrint(e.toString());
@@ -214,11 +214,25 @@ class PostServices {
     }
   }
 
-  static Future getPosts() async {
+  static Future getPosts(String userId) async {
+    try {
+      if (userId != null) {
+        return await getPostsComputed(userId);
+      }
+
+      var response = await Dio().get('${api_uri}/posts');
+
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  static Future getPostsComputed(String userId) async {
     try {
       // print(api_uri);
-      var response = await Dio().get('${api_uri}/posts');
-      // debugPrint(response.toString());
+      var response = await Dio().get('${api_uri}/posts/computed/$userId');
+
       return response.data;
     } catch (e) {
       debugPrint(e.toString());
