@@ -48,7 +48,7 @@ class _PostScreenState extends State<PostScreen> {
       // print(_user);
       // print(_user['firstName']);
     }
-    if (_user['_id'] == widget.post['user'][0]['_id']) {
+    if (_user?['_id'] == widget.post?['user']?['_id']) {
       setState(() {
         _isOwner = true;
       });

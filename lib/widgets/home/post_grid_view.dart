@@ -40,8 +40,8 @@ class _PostGridViewState extends State<PostGridView> {
                     return PostScreen(post: widget.posts[index]);
                   }));
                   // TODO refresh
-                  print('gridview');
-                  print(_refresh);
+                  // print('gridview');
+                  // print(_refresh);
                   if (_refresh == true) {
                     widget.refreshPosts();
                   }

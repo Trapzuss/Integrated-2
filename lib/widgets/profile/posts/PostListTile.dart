@@ -24,6 +24,7 @@ class PostListTile extends StatefulWidget {
 class _PostListTileState extends State<PostListTile> {
   @override
   Widget build(BuildContext context) {
+    // print(widget.post);
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.only(top: 4),
@@ -31,8 +32,6 @@ class _PostListTileState extends State<PostListTile> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             tileColor: Colors.white,
-            // contentPadding: EdgeInsets.only(bottom: 0, top: 0),
-            // minLeadingWidth: 60,
             leading: ClipRRect(
               child: Image.network(
                 widget.post?['images']?[0] == null
@@ -114,7 +113,7 @@ class _PostListTileState extends State<PostListTile> {
                 Container(
                   margin: EdgeInsets.only(bottom: 4),
                   child: Text(
-                    '3000 Baht',
+                    getPriceComputed(),
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -135,9 +134,16 @@ class _PostListTileState extends State<PostListTile> {
         var post = await PostServices.getPostByPostId(widget.post['_id']);
         // Navigator.pop(context);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => PostScreen(post: post[0])));
+            MaterialPageRoute(builder: (context) => PostScreen(post: post)));
       },
     );
+  }
+
+  getPriceComputed() {
+    if (widget.post['price'] == 0) {
+      return 'Free';
+    }
+    return "${widget.post['price']} Baht";
   }
 
   getAddressComputed() {
