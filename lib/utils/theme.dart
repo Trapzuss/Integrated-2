@@ -23,6 +23,7 @@ class AppColors {
   final infoFontColor = Color.fromARGB(255, 113, 113, 113);
   final subInfoFontColor = Color.fromARGB(255, 152, 152, 152);
   final decorateColor = Color(0xFF16868D);
+  final pink = Color(0xFFF7A4A4);
   // final linearColors = LinearGradient(
   //   transform: GradientRotation(270),
   //   colors: [
@@ -82,6 +83,7 @@ class AppStyle {
 }
 
 class AppSrc {
+  final String astroCat = 'assets/images/Catastronaut-cuate.png';
   final String dogImage = 'assets/images/shiba.png';
   final String catImage = 'assets/images/cat.png';
   final String sharkImage = 'assets/images/shark.png';

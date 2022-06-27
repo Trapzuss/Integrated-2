@@ -50,7 +50,7 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
       generalInfo = data;
     });
     // print(data);
-    print(generalInfo);
+    // print(generalInfo);
   }
 
   void getAddressInfo(data) {
@@ -63,7 +63,7 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
     setState(() {
       costInfo = data;
     });
-    print(costInfo);
+    // print(costInfo);
   }
 
   Future _submitForm() async {

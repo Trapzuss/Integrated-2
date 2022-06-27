@@ -10,8 +10,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_integrated/layouts/default_layout.dart';
-import 'package:pet_integrated/models/user.dart';
-import 'package:pet_integrated/models/usertemp.dart';
+
 import 'package:pet_integrated/screens/auth/login_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +34,7 @@ class AuthenticationServices {
         btnOkOnPress: () async {
           var response = await Dio().post('${api_uri}/auth/logout');
           var cancel = BotToast.showLoading();
-          debugPrint(response.toString());
+          // debugPrint(response.toString());
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.remove('access_token');
           await prefs.remove('user');
@@ -94,15 +93,21 @@ class AuthenticationServices {
             context, MaterialPageRoute(builder: (context) => DefaultLayout()));
       });
     } catch (e) {
-      log(e.toString());
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.ERROR,
-        animType: AnimType.BOTTOMSLIDE,
-        title: 'Something went wrong!',
-        desc: e.toString(),
-        btnOkOnPress: () {},
-      )..show();
+      if (e is DioError) {
+        // log("${e.response?.data}");
+        var error = e.response?.data;
+        // log("${error?['error']}");
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.ERROR,
+          animType: AnimType.BOTTOMSLIDE,
+          title: 'Something went wrong!',
+          desc: error?['error'],
+          btnOkOnPress: () {},
+        )..show();
+      } else {
+        log("is error");
+      }
     }
   }
 
@@ -181,6 +186,18 @@ class AuthenticationServices {
     if (access_token != null) {
       userMap = jsonDecode(user) as Map<String, dynamic>;
       return userMap;
+    }
+  }
+
+  static Future getUserId() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      dynamic user = prefs.get('user');
+      Map<String, dynamic> userMap = {};
+      userMap = jsonDecode(user) as Map<String, dynamic>;
+      return userMap['_id'];
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

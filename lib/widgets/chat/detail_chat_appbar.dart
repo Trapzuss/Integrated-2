@@ -16,7 +16,9 @@ class _DetailChatAppBarState extends State<DetailChatAppBar> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: Text(
                 'Back',
                 style: TextStyle(

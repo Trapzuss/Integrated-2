@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_integrated/common/empty_widget.dart';
 import 'package:pet_integrated/screens/posts/keyword_post_screen.dart';
 import 'package:pet_integrated/screens/posts/post_screen.dart';
+import 'package:pet_integrated/services/authentication.dart';
 import 'package:pet_integrated/services/posts.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:pet_integrated/widgets/home/custom_card.dart';
@@ -17,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future _refreshPosts() async {
-    await PostServices.getPosts();
+    await PostServices.getPosts(AuthenticationServices.getUserId().toString());
     setState(() {});
     // print('refresh success');
   }
@@ -34,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: PostServices.getPosts(),
+        future: PostServices.getPosts(
+            AuthenticationServices.getUserId().toString()),
         builder: ((context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return Center(
@@ -55,6 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 right: 10,
               ),
               child: RefreshIndicator(
+                color: AppTheme.colors.primary,
+                backgroundColor: Colors.white,
                 onRefresh: () async {
                   // print('refresh');
                   await _refreshPosts();

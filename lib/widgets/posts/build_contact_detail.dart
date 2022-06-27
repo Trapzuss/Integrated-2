@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pet_integrated/screens/chat/chat_screen.dart';
 import 'package:pet_integrated/screens/profile/guest/guest_profile_screen.dart';
 import 'package:pet_integrated/screens/profile/profile_screen.dart';
 import 'package:pet_integrated/utils/theme.dart';
@@ -20,10 +21,19 @@ class BuildContactDetail extends StatelessWidget {
           GestureDetector(
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/Dogpaw-pana.png'),
-                  backgroundColor: Colors.white,
-                ),
+                post['user']?['imageUrl'] != null
+                    ? CircleAvatar(
+                        backgroundImage:
+                            NetworkImage("${post['user']?['imageUrl']}"),
+                        backgroundColor: Colors.white,
+                      )
+                    : CircleAvatar(
+                        child: Icon(
+                          Icons.person,
+                          color: AppTheme.colors.darkFontColor,
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
                 Container(
                   width: MediaQuery.of(context).size.width / 2.5,
                   margin: EdgeInsets.only(left: 10),
@@ -33,7 +43,7 @@ class BuildContactDetail extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(bottom: 5),
                         child: Text(
-                          "${post['user'][0]['firstName']} ${post['user'][0]['lastName']}",
+                          "${post['user']['firstName']} ${post['user']['lastName']}",
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -82,7 +92,15 @@ class BuildContactDetail extends StatelessWidget {
                 Container(
                   width: 35,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                    chatId: post?['chat']?['_id'] ?? null,
+                                    post: post,
+                                    user: post['user'])));
+                      },
                       child: Icon(
                         Icons.chat,
                         size: 16,
