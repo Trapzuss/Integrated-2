@@ -63,14 +63,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                child: Image.network(
-                  widget.user?['imageUrl'] == null
-                      ? AppTheme.src.profileImage
-                      : widget.user['imageUrl'],
-                  fit: BoxFit.cover,
-                  width: 96,
-                  height: 96,
-                ),
+                child: _getComputedAvatar(),
               ),
             ),
           ),
@@ -257,6 +250,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
   }
 
   Widget PostListView() {
+    print(widget.user?['posts']);
     return widget.user?['posts']?.length != 0
         ? Flexible(
             child: ListView.builder(
@@ -294,5 +288,31 @@ class _ProfileHeaderState extends State<ProfileHeader> {
         ),
       );
     }
+    return Container();
+  }
+
+  _getComputedAvatar() {
+    if (widget.user?['imageUrl'] != null) {
+      return Image.network(
+        widget.user['imageUrl'],
+        fit: BoxFit.cover,
+        width: 96,
+        height: 96,
+      );
+    }
+    return ClipRRect(
+      child: Container(
+        width: 96,
+        height: 96,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Icon(
+          Icons.person,
+          color: AppTheme.colors.darkFontColor,
+          size: 52,
+        ),
+      ),
+    );
   }
 }

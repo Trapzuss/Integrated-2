@@ -28,7 +28,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final _controllerDistrict = TextEditingController();
   final _controllerProvince = TextEditingController();
   final _controllerCountry = TextEditingController();
-
+  String? _imageUrl;
   void _pickImage(newMedia) async {
     try {
       setState(() {
@@ -107,7 +107,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   _intitialProfileData() async {
     _user = await AuthenticationServices.getProfileFromState();
-
+    _imageUrl = _user?['imageUrl'];
     _controllerFirstname.text = _user['firstName'];
     _controllerLastname.text = _user['lastName'];
     _controllerDistrict.text = _user?['address']?['district'] == null
@@ -119,13 +119,15 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     _controllerCountry.text = _user?['address']?['country'] == null
         ? ''
         : _user['address']['country'];
-    // print(_user);
+    // print("in method $_imageUrl");
   }
 
   @override
   void initState() {
     _intitialProfileData();
     super.initState();
+
+    // print("in init $_imageUrl");
   }
 
   @override
@@ -184,15 +186,17 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               child: Column(
                 children: [
                   ProfileImageEditing(
-                    imageUrl:
-                        _user?['imageUrl'] == null ? null : _user['imageUrl'],
+                    imageUrl: _imageUrl == null ? null : _imageUrl,
                     pickImageAction: _pickImage,
                   ),
-                  Text('Tap to change profile picture',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      )),
+                  Container(
+                    margin: EdgeInsets.only(top: 3),
+                    child: Text('Tap to change profile picture',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        )),
+                  ),
                 ],
               ),
             ),
