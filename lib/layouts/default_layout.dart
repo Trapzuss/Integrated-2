@@ -5,7 +5,9 @@ import 'package:pet_integrated/screens/chat/chat_list_screen.dart';
 import 'package:pet_integrated/screens/chat/chat_screen.dart';
 import 'package:pet_integrated/screens/home_screen.dart';
 import 'package:pet_integrated/screens/profile/profile_edit_screen.dart';
+import 'package:pet_integrated/screens/search_screen.dart';
 import 'package:pet_integrated/services/authentication.dart';
+import 'package:pet_integrated/services/posts.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
@@ -88,6 +90,17 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     // print('refresh profile');
   }
 
+  _searchKeyword(context, value) async {
+    setState(() {
+      _searchValue = value;
+    });
+    // var response = await PostServices.getPostsByKeyword(_searchValue);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SearchScreen(keyword: _searchValue)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,9 +177,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
                         filled: true,
                         fillColor: AppTheme.colors.primary),
                     onFieldSubmitted: (value) {
-                      setState(() {
-                        _searchValue = value;
-                      });
+                      _searchKeyword(context, value);
                     },
                   ),
                 )
