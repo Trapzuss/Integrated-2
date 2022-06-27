@@ -24,7 +24,8 @@ class UserServices {
       var mediaFile = data['imageUrl'];
       UploadTask? task;
       if (data == null) return isLoading();
-      if (mediaFile.runtimeType != String) {
+
+      if (mediaFile.runtimeType != String && mediaFile != null) {
         final fileName = '${basename(mediaFile!.path)}${DateTime.now()}';
         final destination = "files/$fileName";
         // #upload file to storage
@@ -41,11 +42,11 @@ class UserServices {
         ...data,
         "imageUrl": urlDownload == null ? userMap['imageUrl'] : urlDownload
       };
-
+      // log("$payload");
       var response =
           await Dio().patch("${api_uri}/user/${userMap['_id']}", data: payload);
       await prefs.setString('user', jsonEncode({...userMap, ...payload}));
-      // print(response);
+
       BotToast.showNotification(
         crossPage: true,
         backgroundColor: Colors.green[400],
