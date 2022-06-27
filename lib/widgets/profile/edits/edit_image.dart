@@ -18,6 +18,7 @@ class ProfileImageEditing extends StatefulWidget {
 
 class _ProfileImageEditingState extends State<ProfileImageEditing> {
   File? _mediaFile;
+  String? _imageUrl;
   Future _selectFile() async {
     try {
       // print('select file');
@@ -39,6 +40,7 @@ class _ProfileImageEditingState extends State<ProfileImageEditing> {
 
   @override
   void initState() {
+    _imageUrl = widget.imageUrl;
     super.initState();
   }
 
@@ -81,18 +83,23 @@ class _ProfileImageEditingState extends State<ProfileImageEditing> {
   }
 
   Widget _buildImageComputed() {
+    print(_imageUrl);
     if (_mediaFile == null) {
-      if (widget.imageUrl == null) {
-        return Image.asset(AppTheme.src.sharkImage, fit: BoxFit.cover);
+      if (_imageUrl == null) {
+        return Icon(
+          Icons.person,
+          color: AppTheme.colors.darkFontColor,
+          size: 28,
+        );
       } else {
-        return Image.network(widget.imageUrl!, fit: BoxFit.cover);
+        return Image.network(_imageUrl!, fit: BoxFit.cover);
       }
     }
     if (_mediaFile != null) {
-      if (widget.imageUrl == null) {
+      if (_imageUrl == null) {
         return Image.file(_mediaFile!, fit: BoxFit.cover);
       } else {
-        return Image.network(widget.imageUrl!, fit: BoxFit.cover);
+        return Image.network(_imageUrl!, fit: BoxFit.cover);
       }
     }
     return Center(
