@@ -71,7 +71,7 @@ class _PostScreenState extends State<PostScreen> {
                 BuildImage(post: widget.post, user: _user, isOwner: _isOwner),
                 BuildTitle(post: widget.post),
                 BuildCardDetail(post: widget.post),
-                BuildContactDetail(post: widget.post),
+                BuildContactDetail(post: widget.post, isOwner: _isOwner),
                 BuildDetails(post: widget.post)
               ],
             ),

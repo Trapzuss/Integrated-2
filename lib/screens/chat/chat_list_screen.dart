@@ -154,9 +154,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
                                     return ChatScreen(
-                                        chatId: chat_rooms[i]['_id'],
-                                        post: chat_rooms[i]['post'],
-                                        user: chat_rooms[i]['user']);
+                                      chatId: chat_rooms[i]?['_id'],
+                                      post: chat_rooms[i]?['post'],
+                                      user: chat_rooms[i]?['user'],
+                                      toUser: chat_rooms[i]?['toUser'],
+                                    );
                                   }));
                                 },
                                 child: Icon(

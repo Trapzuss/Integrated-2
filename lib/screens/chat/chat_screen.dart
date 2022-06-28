@@ -21,8 +21,13 @@ class ChatScreen extends StatefulWidget {
   var chatId;
   var post;
   var user;
+  var toUser;
   ChatScreen(
-      {Key? key, required this.post, required this.user, required this.chatId})
+      {Key? key,
+      required this.post,
+      required this.user,
+      required this.chatId,
+      required this.toUser})
       : super(key: key);
 
   @override
@@ -37,7 +42,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final _messageController = TextEditingController();
   var _chat;
   var _user;
-  var _toUser;
+  // var _toUser;
   List _messages = [];
   String _btnMessage = '';
   String? _adoptStatus;
@@ -95,7 +100,7 @@ class _ChatScreenState extends State<ChatScreen> {
         if (data != null) {
           if (mounted) {
             setState(() {
-              _toUser = data?['toUser'];
+              // _toUser = data?['toUser'];
               _chat = data?['chat'];
               _messages = data?['chat']?['messages'];
               _adoptStatus = _chat?['adoptStatus'];
@@ -139,7 +144,7 @@ class _ChatScreenState extends State<ChatScreen> {
           setState(() {
             _chat = data?['chat'];
             _messages = data?['chat']?['messages'];
-            _toUser = data?['toUser'];
+            // _toUser = data?['toUser'];
           });
         }
       }
@@ -166,7 +171,9 @@ class _ChatScreenState extends State<ChatScreen> {
     }
 
     if (_user['_id'] == widget.post?['userId']) {
-      toUserId = _toUser['_id'];
+      toUserId = widget.toUser?['_id'];
+    } else {
+      toUserId = widget.post['userId'];
     }
     text = messageType != 'DEFAULT_MESSAGE'
         ? messageType
@@ -175,7 +182,7 @@ class _ChatScreenState extends State<ChatScreen> {
       "postId": widget.post['_id'],
       "chatId": chatId,
       "byUserId": _user['_id'],
-      "toUserId": widget.post['userId'],
+      "toUserId": toUserId,
       "messageText": text,
       "messageType": messageType ?? 'DEFAULT_MESSAGE'
     };
@@ -287,14 +294,14 @@ class _ChatScreenState extends State<ChatScreen> {
     // print(_loading);
   }
 
-  @override
-  void didUpdateWidget(covariant ChatScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (mounted) {
-      _socketListener();
-      print('is has something');
-    }
-  }
+  // @override
+  // void didUpdateWidget(covariant ChatScreen oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (mounted) {
+  //     _socketListener();
+  //     print('is has something');
+  //   }
+  // }
 
   @override
   void initState() {
@@ -492,9 +499,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     decoration: BoxDecoration(
                         color: Colors.grey[300], shape: BoxShape.circle),
                     width: 40,
-                    child: _toUser?['imageUrl'] != null
+                    child: widget.toUser?['imageUrl'] != null
                         ? CircleAvatar(
-                            backgroundImage: NetworkImage(_toUser?['imageUrl']),
+                            backgroundImage:
+                                NetworkImage(widget.toUser?['imageUrl']),
                           )
                         : Icon(Icons.person),
                   ),
@@ -538,11 +546,13 @@ class _ChatScreenState extends State<ChatScreen> {
       'REJECT_ADOPT': 'You have reject the adopt',
     };
     var computedMessagesTo = {
-      'CANCEL_CONFIRM': "${_toUser?['firstName']} have cancel confirm adopt",
-      'CONFIRM_ADOPT': "${_toUser?['firstName']} have confirm adopt",
-      'REQUEST_ADOPT': "${_toUser?['firstName']} have request adopt",
-      'CANCEL_REQUEST_ADOPT': "${_toUser?['firstName']} have cancel adopt",
-      'REJECT_ADOPT': "${_toUser?['firstName']} have reject adopt",
+      'CANCEL_CONFIRM':
+          "${widget.toUser?['firstName']} have cancel confirm adopt",
+      'CONFIRM_ADOPT': "${widget.toUser?['firstName']} have confirm adopt",
+      'REQUEST_ADOPT': "${widget.toUser?['firstName']} have request adopt",
+      'CANCEL_REQUEST_ADOPT':
+          "${widget.toUser?['firstName']} have cancel adopt",
+      'REJECT_ADOPT': "${widget.toUser?['firstName']} have reject adopt",
     };
     String? messageComputed;
     String text = message['messageText'];
@@ -605,7 +615,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            print('set');
+                            // print('set');
                             await _socketListener();
                             setState(() {});
                           },
@@ -616,7 +626,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 4),
                                   child: Text(
-                                    widget.user?['firstName'],
+                                    widget.user?['firstName'] ==
+                                            _user['firstName']
+                                        ? "You"
+                                        : widget.user?['firstName'],
                                     style: AppTheme.style.primaryFontStyle,
                                   ),
                                 ),
@@ -712,7 +725,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   _getAvatarComputed() {
-    if (widget.user?['imageUrl'] != null) {
+    if (widget.toUser?['imageUrl'] != null) {
       return CircleAvatar(
         radius: 12,
         backgroundImage: NetworkImage("${widget.user?['imageUrl']}"),

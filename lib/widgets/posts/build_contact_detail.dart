@@ -9,7 +9,9 @@ import 'package:pet_integrated/utils/theme.dart';
 
 class BuildContactDetail extends StatelessWidget {
   var post;
-  BuildContactDetail({Key? key, required this.post}) : super(key: key);
+  bool isOwner;
+  BuildContactDetail({Key? key, required this.post, required this.isOwner})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class BuildContactDetail extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Pet's owner",
+                        "Post's owner",
                         overflow: TextOverflow.fade,
                         softWrap: true,
                         maxLines: 2,
@@ -72,47 +74,51 @@ class BuildContactDetail extends StatelessWidget {
               }));
             },
           ),
-          Container(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Container(
-                //   margin: EdgeInsets.only(right: 5),
-                //   width: 35,
-                //   child: ElevatedButton(
-                //       onPressed: () {},
-                //       child: Icon(
-                //         Icons.call,
-                //       ),
-                //       style: ElevatedButton.styleFrom(
-                //           padding: EdgeInsets.all(0),
-                //           elevation: 0,
-                //           shape: CircleBorder())),
-                // ),
-                Container(
-                  width: 35,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatScreen(
-                                    chatId: post?['chat']?['_id'] ?? null,
-                                    post: post,
-                                    user: post['user'])));
-                      },
-                      child: Icon(
-                        Icons.chat,
-                        size: 16,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(0),
-                          elevation: 0,
-                          shape: CircleBorder())),
+          !isOwner
+              ? Container(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Container(
+                      //   margin: EdgeInsets.only(right: 5),
+                      //   width: 35,
+                      //   child: ElevatedButton(
+                      //       onPressed: () {},
+                      //       child: Icon(
+                      //         Icons.call,
+                      //       ),
+                      //       style: ElevatedButton.styleFrom(
+                      //           padding: EdgeInsets.all(0),
+                      //           elevation: 0,
+                      //           shape: CircleBorder())),
+                      // ),
+                      Container(
+                        width: 35,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChatScreen(
+                                          toUser:
+                                              post?['chat']?['toUser'] ?? null,
+                                          chatId: post?['chat']?['_id'] ?? null,
+                                          post: post,
+                                          user: post['user'])));
+                            },
+                            child: Icon(
+                              Icons.chat,
+                              size: 16,
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.all(0),
+                                elevation: 0,
+                                shape: CircleBorder())),
+                      )
+                    ],
+                  ),
                 )
-              ],
-            ),
-          )
+              : Container()
         ],
       ),
     );
