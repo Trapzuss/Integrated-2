@@ -228,6 +228,17 @@ class PostServices {
     }
   }
 
+  static Future getAvailablePosts(String userId) async {
+    try {
+      var response =
+          await Dio().get('${api_uri}/posts/computed/$userId?type=available');
+
+      return response.data;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   static Future getPostsComputed(String userId) async {
     try {
       // print(api_uri);
