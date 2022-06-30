@@ -10,7 +10,14 @@ import 'package:pet_integrated/utils/theme.dart';
 class BuildContactDetail extends StatelessWidget {
   var post;
   bool isOwner;
-  BuildContactDetail({Key? key, required this.post, required this.isOwner})
+  bool isGuest;
+  bool isAdopted;
+  BuildContactDetail(
+      {Key? key,
+      required this.post,
+      required this.isOwner,
+      required this.isGuest,
+      required this.isAdopted})
       : super(key: key);
 
   @override
@@ -74,24 +81,11 @@ class BuildContactDetail extends StatelessWidget {
               }));
             },
           ),
-          !isOwner
+          (isOwner == false && isGuest == false) && isAdopted == false
               ? Container(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Container(
-                      //   margin: EdgeInsets.only(right: 5),
-                      //   width: 35,
-                      //   child: ElevatedButton(
-                      //       onPressed: () {},
-                      //       child: Icon(
-                      //         Icons.call,
-                      //       ),
-                      //       style: ElevatedButton.styleFrom(
-                      //           padding: EdgeInsets.all(0),
-                      //           elevation: 0,
-                      //           shape: CircleBorder())),
-                      // ),
                       Container(
                         width: 35,
                         child: ElevatedButton(
