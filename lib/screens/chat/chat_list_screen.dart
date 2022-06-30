@@ -69,12 +69,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
           if (snapshot.hasError) {
             return EmptyPostsTypeError(error: snapshot.error.toString());
           }
-
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData) {
               List temp = snapshot.data as List;
               List chat_rooms = temp.toList();
-
+              // print(chat_rooms);
               // print(chat_rooms);
               // print(chat_rooms[0]);
               // print(chat_rooms[0]?['participants']);
@@ -94,6 +93,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       itemCount: chat_rooms.length,
                       itemBuilder: (context, i) {
                         return ListTile(
+                          tileColor:
+                              chat_rooms[i]?['adoptStatus'] == "CONFIRMED"
+                                  ? Colors.green[50]
+                                  : Colors.transparent,
                           title: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -140,13 +143,16 @@ class _ChatListScreenState extends State<ChatListScreen> {
                               )
                             ],
                           ),
-                          leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.network(
-                                _computedImage(chat_rooms[i]),
-                                width: 70,
-                                height: 70,
-                              )),
+                          leading: Stack(children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image.network(
+                                  _computedImage(chat_rooms[i]),
+                                  width: 70,
+                                  height: 70,
+                                )),
+                            confirmCheckWidget(chat_rooms[i]?['adoptStatus'])
+                          ]),
                           trailing: Container(
                             width: 35,
                             child: ElevatedButton(
@@ -177,6 +183,32 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
           return LoadingWidget();
         });
+  }
+
+  confirmCheckWidget(adoptStatus) {
+    if (adoptStatus != null) {
+      // print(adoptStatus);
+      if (adoptStatus.toString() == 'CONFIRMED') {
+        return Positioned(
+          top: 0,
+          right: 0,
+          child: CircleAvatar(
+            radius: 10,
+            child: Icon(
+              Icons.check,
+              size: 12,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.green[200],
+          ),
+        );
+      }
+      // return Text(adoptStatus.toString());
+    }
+
+    return Container(
+      child: Text(' '),
+    );
   }
 
   Widget AuthenWrapper() {

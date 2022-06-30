@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_integrated/common/empty_widget.dart';
+import 'package:pet_integrated/screens/posts/post_screen.dart';
 import 'package:pet_integrated/services/posts.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:pet_integrated/utils/utils.dart';
@@ -65,24 +66,6 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
-  // late Stream _streamMessages;
-
-  // Stream _getStreamMessages() async* {
-  //   socket.on('received-messages', (data) {
-  //     print('stream!!!!!');
-  //     if (data != null) {
-  //       if (mounted) {
-  //         // print('setState');
-  //         setState(() {
-  //           _toUser = data?['toUser'];
-  //           _chat = data?['chat'];
-  //           _messages = data?['chat']?['messages'];
-  //         });
-  //       }
-  //     }
-  //   });
-  // }
-
   Future<void> _connectSocket() async {
     socket = IO.io(
         'http://10.0.2.2:4000',
@@ -96,8 +79,11 @@ class _ChatScreenState extends State<ChatScreen> {
       // socket.emit('join', 'join from client');
       socket
           .emit('chatId', {"chatId": widget.chatId, "byUserId": _user['_id']});
+      // log("entering");
       socket.on('received-messages', (data) async {
+        log("get message");
         if (data != null) {
+          // log("${data}");
           if (mounted) {
             setState(() {
               // _toUser = data?['toUser'];
@@ -146,9 +132,17 @@ class _ChatScreenState extends State<ChatScreen> {
             _messages = data?['chat']?['messages'];
             // _toUser = data?['toUser'];
           });
+
+          final position = _listScrollController.position.maxScrollExtent;
+          _listScrollController.animateTo(
+            position,
+            duration: Duration(seconds: 1),
+            curve: Curves.easeOut,
+          );
         }
       }
     });
+
     setState(() {
       _loading = false;
     });
@@ -435,12 +429,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget ChatListView() {
     return _loading
         ? loadingWidgetWithText(text: "Loading messages . . .")
-        :
-        //  StreamBuilder(
-        //     stream: _getStreamMessages(),
-        //     builder: (context, snapshot) {
-        //       return
-        ListView.separated(
+        : ListView.separated(
             controller: _listScrollController,
             padding: EdgeInsets.zero,
             itemBuilder: ((context, index) => _messages != null
@@ -591,9 +580,18 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: _getImageComputed(),
+                GestureDetector(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: _getImageComputed(),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => PostScreen(
+                                post: {...widget.post, "user": widget.user}))));
+                  },
                 ),
                 Flexible(
                   child: Container(
@@ -649,23 +647,38 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   _buttonComputed() {
-    if (_isOwner && _btnMessage == 'Options') {
-      return _buildOptionButtonForOwner();
+    // isAdopted and i'm guest
+    if (widget.post?['adoptedBy'] != null &&
+        (widget.post?['adoptedBy'] != _user['_id'] && _isOwner == false)) {
+      return Container(
+        padding: EdgeInsets.only(right: 12, left: 12, top: 8, bottom: 8),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.red[400]),
+        child: Text(
+          'ADOPTED ',
+          style: AppTheme.style.primaryFontStyle.copyWith(color: Colors.white),
+        ),
+      );
+    } else {
+      if (_isOwner && _btnMessage == 'Options') {
+        return _buildOptionButtonForOwner();
+      }
+      return Container(
+        padding: EdgeInsets.only(right: 8, left: 8, top: 4, bottom: 4),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppTheme.colors.pink),
+        child: GestureDetector(
+            onTap: () {
+              _submitAdoptButton();
+            },
+            child: Text(
+              _btnMessage,
+              style:
+                  AppTheme.style.primaryFontStyle.copyWith(color: Colors.white),
+            )),
+      );
     }
-    return Container(
-      padding: EdgeInsets.only(right: 8, left: 8, top: 4, bottom: 4),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: AppTheme.colors.pink),
-      child: GestureDetector(
-          onTap: () {
-            _submitAdoptButton();
-          },
-          child: Text(
-            _btnMessage,
-            style:
-                AppTheme.style.primaryFontStyle.copyWith(color: Colors.white),
-          )),
-    );
   }
 
   _buildOptionButtonForOwner() {
