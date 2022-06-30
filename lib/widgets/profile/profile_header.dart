@@ -149,29 +149,21 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                         "You haven't login yet".toString().toUpperCase(),
                         style: AppTheme.style.titleFontStyle,
                       ),
-                      GestureDetector(
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 2),
-                              child: Icon(
-                                Icons.login,
-                                size: 14,
-                                color: AppTheme.colors.subInfoFontColor,
-                              ),
-                            ),
-                            Text(
-                              'Log in',
-                              style: AppTheme.style.secondaryFontStyle,
-                            )
-                          ],
-                        ),
-                        onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
-                        },
+                      Row(
+                        children: [
+                          // Container(
+                          //   margin: EdgeInsets.only(right: 2),
+                          //   child: Icon(
+                          //     Icons.login,
+                          //     size: 14,
+                          //     color: AppTheme.colors.subInfoFontColor,
+                          //   ),
+                          // ),
+                          Text(
+                            'Please Log in to continue our features',
+                            style: AppTheme.style.secondaryFontStyle,
+                          )
+                        ],
                       ),
                     ],
                   ),

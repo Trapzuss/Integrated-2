@@ -35,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: PostServices.getPosts(
+        // future: PostServices.getPosts(
+        //     AuthenticationServices.getUserId().toString()),
+        future: PostServices.getAvailablePosts(
             AuthenticationServices.getUserId().toString()),
         builder: ((context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {

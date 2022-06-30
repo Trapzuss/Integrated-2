@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _navigateToEditProfile() async {
-    bool? _refresh = await Navigator.push(
+    bool? _refresh = await Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => ProfileEditScreen()));
     // print('profile');
     // print(_refresh);
