@@ -60,6 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
+        appBar: AppBar(
+          title: Text('AdoptHome'),
+          foregroundColor: Colors.white,
+        ),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Container(

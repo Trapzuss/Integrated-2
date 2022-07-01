@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_integrated/common/empty_widget.dart';
 import 'package:pet_integrated/screens/posts/post_screen.dart';
+import 'package:pet_integrated/screens/profile/guest/guest_profile_screen.dart';
 import 'package:pet_integrated/services/posts.dart';
 import 'package:pet_integrated/utils/theme.dart';
 import 'package:pet_integrated/utils/utils.dart';
@@ -67,6 +68,13 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _connectSocket() async {
+    String toUserId;
+    if (_user['_id'] == widget.post?['userId']) {
+      toUserId = widget.toUser?['_id'];
+    } else {
+      toUserId = widget.post['userId'];
+    }
+
     socket = IO.io(
         'http://10.0.2.2:4000',
         IO.OptionBuilder()
@@ -76,12 +84,16 @@ class _ChatScreenState extends State<ChatScreen> {
     socket.connect();
     socket.onConnect((data) {
       log('Connected to socket.io server');
-      // socket.emit('join', 'join from client');
-      socket
-          .emit('chatId', {"chatId": widget.chatId, "byUserId": _user['_id']});
+
+      socket.emit('chatId', {
+        "chatId": widget.chatId,
+        "byUserId": _user['_id'],
+        "postId": widget.post['_id'],
+        "toUserId": toUserId,
+      });
       // log("entering");
       socket.on('received-messages', (data) async {
-        log("get message");
+        // log(data);
         if (data != null) {
           // log("${data}");
           if (mounted) {
@@ -98,7 +110,7 @@ class _ChatScreenState extends State<ChatScreen> {
               final position = _listScrollController.position.maxScrollExtent;
               _listScrollController.animateTo(
                 position,
-                duration: Duration(seconds: 1),
+                duration: Duration(milliseconds: 500),
                 curve: Curves.easeOut,
               );
             }
@@ -120,13 +132,12 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   _socketListener() async {
-    setState(() {
-      _loading = true;
-    });
+    // setState(() {
+    //   _loading = true;
+    // });
     socket.on('received-messages', (data) {
       if (data != null) {
         if (mounted) {
-          // print('set message');
           setState(() {
             _chat = data?['chat'];
             _messages = data?['chat']?['messages'];
@@ -136,16 +147,16 @@ class _ChatScreenState extends State<ChatScreen> {
           final position = _listScrollController.position.maxScrollExtent;
           _listScrollController.animateTo(
             position,
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 500),
             curve: Curves.easeOut,
           );
         }
       }
     });
 
-    setState(() {
-      _loading = false;
-    });
+    // setState(() {
+    //   _loading = false;
+    // });
   }
 
   _sendMessage(String? messageType) async {
@@ -187,8 +198,8 @@ class _ChatScreenState extends State<ChatScreen> {
       _messageController.clear();
     }
 
-    _socketListener();
-    setState(() {});
+    // _socketListener();
+    // setState(() {});
   }
 
   _submitAdoptButton({String? option}) async {
@@ -288,24 +299,13 @@ class _ChatScreenState extends State<ChatScreen> {
     // print(_loading);
   }
 
-  // @override
-  // void didUpdateWidget(covariant ChatScreen oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   if (mounted) {
-  //     _socketListener();
-  //     print('is has something');
-  //   }
-  // }
-
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         setState(() {
           _loading = true;
         });
-        // _getStreamMessages();
 
         _initialUserData().whenComplete(() async {
           _connectSocket();
@@ -315,14 +315,16 @@ class _ChatScreenState extends State<ChatScreen> {
         });
       }
     });
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     if (mounted) {
       socket.disconnect();
+      socket.dispose();
     }
+    super.dispose();
   }
 
   @override
@@ -489,11 +491,29 @@ class _ChatScreenState extends State<ChatScreen> {
                         color: Colors.grey[300], shape: BoxShape.circle),
                     width: 40,
                     child: widget.toUser?['imageUrl'] != null
-                        ? CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(widget.toUser?['imageUrl']),
+                        ? GestureDetector(
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(widget.toUser?['imageUrl']),
+                            ),
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return GuestProfileScreen(
+                                    userId: widget.toUser?['_id']);
+                              }));
+                            },
                           )
-                        : Icon(Icons.person),
+                        : GestureDetector(
+                            child: Icon(Icons.person),
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return GuestProfileScreen(
+                                    userId: widget.toUser?['_id']);
+                              }));
+                            },
+                          ),
                   ),
                   SizedBox(
                     width: 10,
@@ -602,11 +622,16 @@ class _ChatScreenState extends State<ChatScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              margin: EdgeInsets.only(bottom: 4),
-                              child: Text("${widget.post['petName']}",
+                            Flexible(
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 4),
+                                child: Text(
+                                  "${widget.post['petName']}",
                                   style: AppTheme.style.titleFontStyle
-                                      .copyWith(color: Colors.white)),
+                                      .copyWith(color: Colors.white),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
                             _buttonComputed()
                           ],
