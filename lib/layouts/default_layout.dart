@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:pet_integrated/common/empty_widget.dart';
 import 'package:pet_integrated/screens/auth/login_screen.dart';
 import 'package:pet_integrated/screens/chat/chat_list_screen.dart';
 import 'package:pet_integrated/screens/chat/chat_screen.dart';
+import 'package:pet_integrated/screens/chat/clone_chat_list_screen.dart';
 import 'package:pet_integrated/screens/home_screen.dart';
 import 'package:pet_integrated/screens/profile/profile_edit_screen.dart';
 import 'package:pet_integrated/screens/search_screen.dart';
@@ -29,15 +32,15 @@ class _DefaultLayoutState extends State<DefaultLayout> {
   bool _login = false;
   String _searchValue = '';
   final _BtmNvgtItems = <BottomNavigationBarItem>[
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(Icons.home),
       label: 'Home',
     ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.chat),
+    const BottomNavigationBarItem(
+      icon: const Icon(Icons.chat),
       label: 'Chat',
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(Icons.person),
       label: 'Profile',
     ),
@@ -48,6 +51,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     _checkAuthenState();
     _isSearching = false;
     pageController = PageController();
+
     super.initState();
   }
 
@@ -84,7 +88,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     await AuthenticationServices.getProfile();
     setState(() {
       _refresh = true;
-      Future.delayed(Duration(milliseconds: 3000));
+      Future.delayed(const Duration(milliseconds: 3000));
       _refresh = false;
     });
     // print('refresh profile');
@@ -111,27 +115,27 @@ class _DefaultLayoutState extends State<DefaultLayout> {
           title: AppbarComputed(context),
         ),
         body: PageView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: [
-            HomeScreen(),
-            ChatListScreen(),
-            !_refresh ? ProfileScreen() : LoadingWidget()
+            const HomeScreen(),
+            const ChatListScreen(),
+            !_refresh ? ProfileScreen() : const LoadingWidget()
           ],
           controller: pageController,
         ),
         bottomNavigationBar: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),
-                topRight: Radius.circular(30.0),
+                topRight: const Radius.circular(30.0),
               ),
               // boxShadow: [
               //   BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
               // ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30.0),
                 topRight: Radius.circular(30.0),
               ),
@@ -163,17 +167,18 @@ class _DefaultLayoutState extends State<DefaultLayout> {
                   child: TextFormField(
                     maxLines: 1,
                     decoration: InputDecoration(
-                        hintStyle: TextStyle(fontSize: 10, height: 2),
+                        hintStyle: const TextStyle(fontSize: 10, height: 2),
                         hintText: '"What your interesting?"',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             width: 0,
                             style: BorderStyle.none,
                           ),
                         ),
-                        contentPadding: EdgeInsets.only(left: 10, right: 10),
-                        suffixIcon: Icon(Icons.search),
+                        contentPadding:
+                            const EdgeInsets.only(left: 10, right: 10),
+                        suffixIcon: const Icon(Icons.search),
                         filled: true,
                         fillColor: AppTheme.colors.primary),
                     onFieldSubmitted: (value) {
@@ -187,7 +192,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
             width: 30,
             height: 30,
             child: InkWell(
-                customBorder: CircleBorder(),
+                customBorder: const CircleBorder(),
                 onTap: () {
                   setState(() {
                     // print(_isSearching);
@@ -206,7 +211,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         children: [
           Text(_appBarTitle, style: TextStyle(color: AppTheme.colors.primary)),
           Container(
-            margin: EdgeInsets.only(left: 4),
+            margin: const EdgeInsets.only(left: 4),
             child: Icon(
               Icons.chat,
               color: AppTheme.colors.primary,
@@ -223,11 +228,11 @@ class _DefaultLayoutState extends State<DefaultLayout> {
               Text(_appBarTitle,
                   style: TextStyle(color: AppTheme.colors.primary)),
               Container(
-                  margin: EdgeInsets.only(left: 4),
+                  margin: const EdgeInsets.only(left: 4),
                   child: CircleAvatar(
                     radius: 14,
                     backgroundColor: AppTheme.colors.primary,
-                    child: Icon(
+                    child: const Icon(
                       Icons.person,
                       size: 18,
                       color: Colors.white,
@@ -242,7 +247,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
                   child: IconButton(
                     color: Colors.white,
                     splashRadius: 15,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.logout,
                       color: Colors.red,
                     ),
@@ -265,7 +270,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
+                              builder: (context) => const LoginScreen()));
                     },
                   ),
                 ),

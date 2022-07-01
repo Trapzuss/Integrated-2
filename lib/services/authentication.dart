@@ -89,6 +89,7 @@ class AuthenticationServices {
         btnOkOnPress: () {},
       )..show();
       Future.delayed(Duration(seconds: 2), () {
+        Navigator.of(context).popUntil((route) => route.isFirst);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => DefaultLayout()));
       });
