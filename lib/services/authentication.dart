@@ -24,7 +24,7 @@ class AuthenticationServices {
         context: context,
         dialogType: DialogType.WARNING,
         animType: AnimType.BOTTOMSLIDE,
-        title: 'Log out from Pethome?',
+        title: 'Log out from AdoptHome?',
         // desc: 'Dialog description here.............',
         btnOkText: "Log out",
         btnCancelText: "Cancel",
@@ -85,7 +85,7 @@ class AuthenticationServices {
         dialogType: DialogType.SUCCES,
         animType: AnimType.BOTTOMSLIDE,
         title: 'Login successfully',
-        desc: 'Welcome to Pethome.',
+        desc: 'Welcome to AdoptHome.',
         btnOkOnPress: () {},
       )..show();
       Future.delayed(Duration(seconds: 2), () {
@@ -125,7 +125,7 @@ class AuthenticationServices {
         dialogType: DialogType.SUCCES,
         animType: AnimType.BOTTOMSLIDE,
         title: 'Register successfully',
-        desc: 'Please sign in to continue Pethome.',
+        desc: 'Please sign in to continue AdoptHome.',
         btnOkOnPress: () {},
       )..show();
       Future.delayed(Duration(seconds: 2), () {

@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Lottie.network(
                 'https://assets7.lottiefiles.com/packages/lf20_syqnfe7c.json'),
             Text(
-              'Pethome',
+              'AdoptHome',
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,

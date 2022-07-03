@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(
-                      'Pethome',
+                      'AdoptHome',
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
