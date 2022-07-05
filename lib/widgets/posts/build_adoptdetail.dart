@@ -53,7 +53,7 @@ class BuildPostAdoptDetail extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(bottom: 5),
                       child: Text(
-                        "${post['adoptedUser']['firstName']} ${post['adoptedUser']['lastName']}",
+                        "${post?['adoptedUser']?['firstName']} ${post?['adoptedUser']?['lastName']}",
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,

@@ -66,7 +66,7 @@ class _PostCardState extends State<PostCard> {
                     width: width / 2 - 20,
                     child: Card(
                       child: Container(
-                        padding: EdgeInsets.all(6),
+                        padding: EdgeInsets.all(2),
                         child: Column(
                           children: [
                             Container(

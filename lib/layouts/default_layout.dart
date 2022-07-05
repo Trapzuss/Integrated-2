@@ -125,7 +125,8 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
         bottomNavigationBar: Container(
             decoration: const BoxDecoration(
-              color: Colors.white,
+              // color: Colors.white,
+              color: Color(0xFF9FBC60),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),
                 topRight: const Radius.circular(30.0),
@@ -140,6 +141,8 @@ class _DefaultLayoutState extends State<DefaultLayout> {
                 topRight: Radius.circular(30.0),
               ),
               child: BottomNavigationBar(
+                unselectedItemColor: AppTheme.colors.notWhite.withOpacity(0.6),
+                selectedItemColor: Colors.white,
                 elevation: 0,
                 items: _BtmNvgtItems,
                 currentIndex: _state,

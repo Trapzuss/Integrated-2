@@ -15,7 +15,7 @@ class BuildGeneralForm extends StatefulWidget {
   var controllerPetname = TextEditingController();
   // var controllerSex = TextEditingController();
   // var controllerAge = TextEditingController();
-  // var controllerWeight = TextEditingController();
+  var controllerWeight = TextEditingController();
   var getGeneralInfoAction;
 
   BuildGeneralForm({
@@ -28,7 +28,7 @@ class BuildGeneralForm extends StatefulWidget {
     required this.controllerPetname,
     // required this.controllerSex,
     // required this.controllerAge,
-    // required this.controllerWeight,
+    required this.controllerWeight,
   }) : super(key: key);
   final GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -48,8 +48,8 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
   String _selectedSex = 'Press to select your pet\'s sex';
   var _selectedWeight;
   var _selectedAge;
-  bool _isUnknownAge = false;
-  bool _isUnknownWeight = false;
+  bool _isUnknownAge = true;
+  bool _isUnknownWeight = true;
   var pickerDataAge = [
     ['< 1', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, '> 10'],
     ['< 1', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -69,6 +69,7 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
       if (widget.post?['weight'] == null) {
         _isUnknownWeight = true;
       } else {
+        _isUnknownWeight = false;
         _selectedWeight = widget.post?['weight'];
       }
       if (widget.post?['age'] == null) {
@@ -101,10 +102,9 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
           "weight": widget.post?['weight']
         };
       });
-
-      // print(_selectedWeight);
-      // print(_selectedAge);
     }
+    // generalInfo = {"weight": widget.controllerWeight.text};
+    // widget.getGeneralInfoAction(generalInfo);
   }
 
   String? _petNameRules(String? value) {
@@ -116,6 +116,12 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
   String? _descriptionRules(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please fill out the description';
+    }
+  }
+
+  String? _weightRules(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill out the weight';
     }
   }
 
@@ -228,7 +234,11 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
                               _isUnknownAge = value;
                             });
                             if (_isUnknownAge) {
-                              generalInfo = {...generalInfo, "age": null};
+                              if (generalInfo != null) {
+                                generalInfo = {...generalInfo, "age": null};
+                              } else {
+                                generalInfo = {"age": null};
+                              }
                             } else {
                               generalInfo = {
                                 ...generalInfo,
@@ -252,18 +262,28 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
                 children: [
                   !_isUnknownWeight
                       ? Container(
-                          margin: EdgeInsets.only(top: 15),
-                          child: GestureDetector(
-                            child: Text(
-                              _selectedWeight == null
-                                  ? 'Press to select your pet\'s weight (kg)'
-                                  : "${_selectedWeight} kg",
-                              style: AppTheme.style.secondaryFontStyle,
-                            ),
-                            onTap: () {
-                              _showPicker(context, 'weight');
-                            },
-                          ))
+                          margin: EdgeInsets.only(right: 5),
+                          child: TextFormField(
+                            validator: !_isUnknownWeight ? _weightRules : null,
+                            controller: widget.controllerWeight,
+                            decoration: AppTheme.style.textFieldStyle(
+                                hinttext: "Enter your pet's weight (Kgs)"),
+                          ),
+                        )
+
+                      // Container(
+                      //     margin: EdgeInsets.only(top: 15),
+                      //     child: GestureDetector(
+                      //       child: Text(
+                      //         _selectedWeight == null
+                      //             ? 'Press to select your pet\'s weight (kg)'
+                      //             : "${_selectedWeight} kg",
+                      //         style: AppTheme.style.secondaryFontStyle,
+                      //       ),
+                      //       onTap: () {
+                      //         _showPicker(context, 'weight');
+                      //       },
+                      //     ))
                       : Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -280,11 +300,15 @@ class _BuildGeneralFormState extends State<BuildGeneralForm> {
                             });
 
                             if (_isUnknownWeight) {
-                              generalInfo = {...generalInfo, "weight": null};
+                              if (generalInfo != null) {
+                                generalInfo = {...generalInfo, "weight": null};
+                              } else {
+                                generalInfo = {"weight": null};
+                              }
                             } else {
                               generalInfo = {
                                 ...generalInfo,
-                                "weight": _selectedWeight
+                                "weight": widget.controllerWeight.text
                               };
                             }
 

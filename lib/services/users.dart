@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:pet_integrated/screens/profile/profile_screen.dart';
 import 'package:pet_integrated/services/firebase.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,6 +65,8 @@ class UserServices {
         ),
       );
       Navigator.pop(context, true);
+      // await Navigator.pushReplacement(
+      //     context, MaterialPageRoute(builder: (context) => ProfileScreen()));
     } catch (e) {
       BotToast.showNotification(
         crossPage: true,
