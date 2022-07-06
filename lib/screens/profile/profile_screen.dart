@@ -45,11 +45,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (access_token != null) {
       // print('is set');
-      setState(() {
-        _access_token = access_token as String;
-        _user = userMap;
-        _isLogin = true;
-      });
+      if (mounted) {
+        setState(() {
+          _access_token = access_token as String;
+          _user = userMap;
+          _isLogin = true;
+        });
+      }
     }
   }
 
@@ -59,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _navigateToEditProfile() async {
-    bool? _refresh = await Navigator.pushReplacement(
+    bool? _refresh = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => ProfileEditScreen()));
     // print('profile');
     // print(_refresh);

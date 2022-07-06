@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
               }
               if (snapshot.connectionState == ConnectionState.done) {
                 return DefaultLayout();
-                // SplashScreen();
+                // return SplashScreen();
               }
               return Center(
                   child: CircularProgressIndicator(

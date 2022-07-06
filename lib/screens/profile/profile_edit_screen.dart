@@ -136,6 +136,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       appBar: AppBar(
         backgroundColor: AppTheme.colors.notWhite,
         elevation: 0,
+        // title: Text('asdasd'),
       ),
       body: Stack(
         children: [

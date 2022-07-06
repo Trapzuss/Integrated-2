@@ -25,6 +25,7 @@ class BuildPostForm extends StatefulWidget {
   var controllerProvince = TextEditingController();
   var controllerCountry = TextEditingController();
   var controllerPrice = TextEditingController();
+  var controllerWeight = TextEditingController();
   BuildPostForm({
     Key? key,
     this.post,
@@ -39,7 +40,7 @@ class BuildPostForm extends StatefulWidget {
     required this.controllerPetname,
     // required this.controllerSex,
     // required this.controllerAge,
-    // required this.controllerWeight,
+    required this.controllerWeight,
     required this.controllerDistrict,
     required this.controllerProvince,
     required this.controllerCountry,
@@ -60,8 +61,11 @@ class _BuildPostFormState extends State<BuildPostForm> {
 
   void _initialPostData() {
     if (widget.post != null) {
-      widget.controllerPetname.text = widget.post['petName'];
-      widget.controllerDescription.text = widget.post['description'];
+      widget.controllerPetname.text = widget.post?['petName'];
+      widget.controllerDescription.text = widget.post?['description'];
+      if (widget.post?['weight'] != null) {
+        widget.controllerWeight.text = widget.post?['weight'];
+      }
       widget.controllerCountry.text = widget.post?['address']['country'];
       widget.controllerDistrict.text = widget.post?['address']['district'];
       widget.controllerProvince.text = widget.post?['address']['province'];
@@ -89,7 +93,7 @@ class _BuildPostFormState extends State<BuildPostForm> {
                 controllerPetname: widget.controllerPetname,
                 // controllerSex: widget.controllerSex,
                 // controllerTitle: widget.controllerTitle,
-                // controllerWeight: widget.controllerWeight,
+                controllerWeight: widget.controllerWeight,
                 getGeneralInfoAction: widget.getGeneralInfoAction,
               ),
               BuildAddressForm(

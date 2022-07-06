@@ -28,7 +28,7 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
   final _controllerPetname = TextEditingController();
   // var _controllerSex = TextEditingController();
   // var _controllerAge = TextEditingController();
-  // var _controllerWeight = TextEditingController();
+  var _controllerWeight = TextEditingController();
   final _controllerDistrict = TextEditingController();
   final _controllerProvince = TextEditingController();
   final _controllerCountry = TextEditingController();
@@ -49,6 +49,7 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
     setState(() {
       generalInfo = data;
     });
+
     // print(data);
     // print(generalInfo);
   }
@@ -84,13 +85,15 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
           "description": _controllerDescription.text,
           "sex": generalInfo['sex'],
           "age": generalInfo['age'],
-          "weight": generalInfo['weight'],
+          "weight": generalInfo['weight'] == null
+              ? generalInfo['weight']
+              : _controllerWeight.text,
           "price": costInfo?['price'] != null ? costInfo['price'] : 0,
         };
-        // print(payload);
+        // print("${payload['weight']}");
+
         final isValid = _formKey.currentState!.validate();
         if (isValid) {
-          // print('Valid');
           PostServices.createPost(context, payload);
         } else {
           BotToast.showNotification(
@@ -114,6 +117,12 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
       }
       // #edit post
       if (widget.action == 'edit') {
+        var weightComputed;
+        if (generalInfo?['weight'] == null) {
+          weightComputed = null;
+        } else {
+          weightComputed = _controllerWeight.text;
+        }
         var payload = {
           "_id": widget.post['_id'],
           "petName": _controllerPetname.text,
@@ -138,14 +147,12 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
           "age": generalInfo?['age'] == null
               ? widget.post['age']
               : generalInfo?['age'],
-          "weight": generalInfo?['weight'] == null
-              ? widget.post['weight']
-              : generalInfo?['weight'],
+          "weight": weightComputed,
           "price": costInfo?['price'] != 0
               ? _controllerPrice.text
               : widget.post['price'],
         };
-        // print(payload);
+
         final isValid = _formKey.currentState!.validate();
         if (isValid) {
           PostServices.updatePost(context, payload);
@@ -164,7 +171,6 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
               'Please fill out all required fields.',
               style: TextStyle(color: Colors.white),
             ),
-            // subtitle: (_) => Text('Please fill out all required fields.'),
           );
           print(_formKey.currentContext);
         }
@@ -216,7 +222,7 @@ class _GeneratePostScreenState extends State<GeneratePostScreen> {
               controllerPrice: _controllerPrice,
               controllerProvince: _controllerProvince,
               // controllerSex: _controllerSex,
-              // controllerWeight: _controllerWeight,
+              controllerWeight: _controllerWeight,
               pickImageAction: pickImage,
               getGeneralInfoAction: getGeneralInfo,
               getAddressInfoAction: getAddressInfo,
